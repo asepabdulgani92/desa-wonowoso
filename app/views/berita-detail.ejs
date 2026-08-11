@@ -1,0 +1,85 @@
+<%- include('partials/header', { title: berita.title + ' | Berita Desa Wonowoso' , page: 'berita' }) %>
+
+    <main>
+        <section class="page active">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Berita Desa</h1>
+                    <nav class="breadcrumb">
+                        <a href="/">Beranda</a>
+                        <span>/</span>
+                        <a href="/berita">Berita</a>
+                        <span>/</span>
+                        <span>Detail</span>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <article class="berita-detail">
+                                <div class="berita-header mb-4">
+                                    <span class="badge bg-primary mb-2">
+                                        <%= berita.category %>
+                                    </span>
+                                    <h1 class="mb-3">
+                                        <%= berita.title %>
+                                    </h1>
+                                    <div class="berita-meta text-muted">
+                                        <span class="me-3"><i class="fas fa-calendar me-1"></i>
+                                            <%= new Date(berita.createdAt).toLocaleDateString('id-ID', { weekday: 'long'
+                                                , year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                        </span>
+                                        <span><i class="fas fa-user me-1"></i>
+                                            <%= berita.author || 'Admin' %>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <% if (berita.image) { %>
+                                    <div class="berita-image mb-4">
+                                        <img src="<%= berita.image %>" alt="<%= berita.title %>"
+                                            class="img-fluid rounded w-100">
+                                    </div>
+                                    <% } %>
+
+                                        <div class="berita-content">
+                                            <% if (berita.content) { %>
+                                                <% const paragraphs=berita.content.split('\n').filter(p=> p.trim() !==
+                                                    '');
+                                                    %>
+                                                    <% paragraphs.forEach(p=> { %>
+                                                        <p>
+                                                            <%= p %>
+                                                        </p>
+                                                        <% }) %>
+                                                            <% } %>
+                                        </div>
+
+                                        <div class="berita-footer mt-5 pt-4 border-top">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <a href="/berita" class="btn btn-outline-secondary"><i
+                                                        class="fas fa-arrow-left"></i> Kembali ke Berita</a>
+
+                                                <div class="share-buttons">
+                                                    <span class="me-2">Bagikan:</span>
+                                                    <a href="#" class="btn btn-sm btn-primary"><i
+                                                            class="fab fa-facebook-f"></i></a>
+                                                    <a href="#" class="btn btn-sm btn-info text-white"><i
+                                                            class="fab fa-twitter"></i></a>
+                                                    <a href="#" class="btn btn-sm btn-success"><i
+                                                            class="fab fa-whatsapp"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>

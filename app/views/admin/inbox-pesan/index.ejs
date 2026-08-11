@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Kotak Masuk Pesan</h3>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Pengirim</th>
+                    <th>Subject</th>
+                    <th>Pesan</th>
+                    <th>Waktu</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(kontaks.length> 0) { %>
+                    <% kontaks.forEach(msg=> { %>
+                        <tr>
+                            <td class="mailbox-name">
+                                <b>
+                                    <%= msg.name %>
+                                </b><br>
+                                <small class="text-muted">
+                                    <%= msg.email %>
+                                </small>
+                            </td>
+                            <td class="mailbox-subject">
+                                <%= msg.subject %>
+                            </td>
+                            <td class="mailbox-date">
+                                <%= msg.message.substring(0, 50) %>...
+                            </td>
+                            <td class="mailbox-date">
+                                <%= new Date(msg.createdAt).toLocaleDateString() %>
+                            </td>
+                            <td>
+                                <form action="/admin/kontak/<%= msg._id %>?_method=DELETE" method="POST"
+                                    onsubmit="return confirm('Hapus pesan ini?');">
+                                    <button type="submit" class="btn btn-default btn-sm">
+                                        <i class="fas fa-trash-alt text-danger"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5" class="text-center">Tidak ada pesan masuk.</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

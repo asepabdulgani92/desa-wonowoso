@@ -1,0 +1,140 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title mb-0">Perangkat Desa</h3>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addPerangkatModal">
+            <i class="fas fa-plus"></i> Tambah Data
+        </button>
+    </div>
+    <div class="card-body p-0">
+        <% if (typeof success !== 'undefined' && success.length) { %>
+            <div class="alert alert-success m-3"><%= success %></div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error.length) { %>
+            <div class="alert alert-danger m-3"><%= error %></div>
+        <% } %>
+
+        <div class="table-responsive">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">#</th>
+                        <th>Foto</th>
+                        <th>Nama</th>
+                        <th>Jabatan</th>
+                        <th>Urutan</th>
+                        <th style="width: 20%">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (perangkatDesa && perangkatDesa.length) { %>
+                        <% perangkatDesa.forEach((person, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td>
+                                    <img src="<%= person.photo || 'https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png' %>"
+                                        alt="<%= person.name %>"
+                                        style="width: 56px; height: 56px; object-fit: cover; border-radius: 50%; border: 2px solid #e5e7eb;">
+                                </td>
+                                <td><%= person.name %></td>
+                                <td><%= person.position %></td>
+                                <td><%= person.order || 0 %></td>
+                                <td class="project-actions">
+                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editPerangkatModal-<%= person._id %>">
+                                        <i class="fas fa-pencil-alt"></i> Edit
+                                    </button>
+                                    <form action="/admin/perangkat-desa/<%= person._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirm('Hapus data perangkat desa ini?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" class="text-center py-4">Belum ada data perangkat desa.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<% if (perangkatDesa && perangkatDesa.length) { %>
+    <% perangkatDesa.forEach((person) => { %>
+        <div class="modal fade" id="editPerangkatModal-<%= person._id %>" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Data Perangkat Desa</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/admin/perangkat-desa/<%= person._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Nama</label>
+                                <input type="text" name="name" class="form-control" value="<%= person.name %>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Jabatan</label>
+                                <input type="text" name="position" class="form-control" value="<%= person.position %>" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Urutan</label>
+                                <input type="number" name="order" class="form-control" value="<%= person.order || 0 %>">
+                            </div>
+                            <div class="form-group">
+                                <label>Foto</label>
+                                <input type="file" name="photo" class="form-control-file">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+<% } %>
+
+<div class="modal fade" id="addPerangkatModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Perangkat Desa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/admin/perangkat-desa" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jabatan</label>
+                        <input type="text" name="position" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Urutan</label>
+                        <input type="number" name="order" class="form-control" value="<%= typeof nextOrder !== 'undefined' ? nextOrder : 0 %>">
+                    </div>
+                    <div class="form-group">
+                        <label>Foto</label>
+                        <input type="file" name="photo" class="form-control-file">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

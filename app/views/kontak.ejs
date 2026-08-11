@@ -1,0 +1,134 @@
+<%- include('partials/header', { title: 'Hubungi Kami | Desa Wonowoso' , page: 'kontak' }) %>
+
+    <main>
+        <!-- ==================== KONTAK ==================== -->
+        <section id="kontak" class="page active">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Hubungi Kami</h1>
+                    <nav class="breadcrumb">
+                        <a href="/">Beranda</a>
+                        <span>/</span>
+                        <span>Kontak</span>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="container">
+                    <div class="kontak-grid">
+                        <div class="kontak-info">
+                            <h2>Informasi Kontak</h2>
+                            <p>Silakan hubungi kami melalui berbagai saluran berikut:</p>
+
+                            <div class="kontak-item">
+                                <div class="kontak-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="kontak-detail">
+                                    <h4>Alamat</h4>
+                                    <p><%= siteSettings && siteSettings.address ? siteSettings.address : 'Jl. Raya Wonowoso No. 1, Kec. Karangtengah, Kab. Demak, Jawa Tengah 59566' %></p>
+                                </div>
+                            </div>
+
+                            <div class="kontak-item">
+                                <div class="kontak-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="kontak-detail">
+                                    <h4>Telepon</h4>
+                                    <p><%= siteSettings && siteSettings.phone ? siteSettings.phone : '(0291) 123-4567' %></p>
+                                </div>
+                            </div>
+
+                            <div class="kontak-item">
+                                <div class="kontak-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="kontak-detail">
+                                    <h4>Email</h4>
+                                    <p><%= siteSettings && siteSettings.email ? siteSettings.email : 'desawonowoso@gmail.com' %></p>
+                                </div>
+                            </div>
+
+                            <div class="kontak-item">
+                                <div class="kontak-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="kontak-detail">
+                                    <h4>Jam Operasional</h4>
+                                    <p><%= siteSettings && siteSettings.operationalHours ? siteSettings.operationalHours : 'Senin - Jumat: 08.00 - 15.00 WIB' %></p>
+                                </div>
+                            </div>
+
+                            <div class="social-links">
+                                <% const socialLinks = [
+                                    { url: siteSettings && siteSettings.facebookUrl ? siteSettings.facebookUrl : '#', className: 'facebook', icon: 'fab fa-facebook-f' },
+                                    { url: siteSettings && siteSettings.instagramUrl ? siteSettings.instagramUrl : '#', className: 'instagram', icon: 'fab fa-instagram' },
+                                    { url: siteSettings && siteSettings.twitterUrl ? siteSettings.twitterUrl : '#', className: 'twitter', icon: 'fab fa-twitter' },
+                                    { url: siteSettings && siteSettings.youtubeUrl ? siteSettings.youtubeUrl : '#', className: 'youtube', icon: 'fab fa-youtube' },
+                                    { url: siteSettings && siteSettings.whatsappUrl ? siteSettings.whatsappUrl : '#', className: 'whatsapp', icon: 'fab fa-whatsapp' }
+                                ]; %>
+                                <% socialLinks.forEach(link => { %>
+                                    <a href="<%= link.url %>" target="_blank" rel="noopener noreferrer" class="social-link <%= link.className %>"><i class="<%= link.icon %>"></i></a>
+                                <% }); %>
+                            </div>
+                        </div>
+
+                        <div class="kontak-form">
+                            <h2>Kirim Pesan</h2>
+                            <form id="contactForm" action="/kontak" method="POST">
+                                <div class="form-group">
+                                    <label>Nama Lengkap</label>
+                                    <input type="text" id="contactName" name="name" placeholder="Masukkan nama lengkap"
+                                        required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" id="contactEmail" name="email"
+                                            placeholder="email@example.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>No. Telepon</label>
+                                        <input type="tel" id="contactPhone" name="phone" placeholder="08xxxxxxxxxx">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Subjek</label>
+                                    <select id="contactSubject" name="subject" required>
+                                        <option value="">Pilih Subjek</option>
+                                        <option value="informasi">Permintaan Informasi</option>
+                                        <option value="layanan">Pertanyaan Layanan</option>
+                                        <option value="pengaduan">Pengaduan</option>
+                                        <option value="saran">Saran & Masukan</option>
+                                        <option value="lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Pesan</label>
+                                    <textarea id="contactMessage" name="message" rows="5"
+                                        placeholder="Tulis pesan Anda..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <i class="fas fa-paper-plane"></i> Kirim Pesan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="map-section">
+                        <h2>Lokasi Desa</h2>
+                        <div class="map-container">
+                            <iframe
+                                src="<%= siteSettings && siteSettings.mapEmbedUrl ? siteSettings.mapEmbedUrl : 'https://www.google.com/maps?q=Desa%20Wonowoso&output=embed' %>"
+                                allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>

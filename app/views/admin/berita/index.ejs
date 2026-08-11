@@ -1,0 +1,111 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Daftar Berita</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addBeritaModal">
+                <i class="fas fa-plus"></i> Tulis Berita
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">#</th>
+                    <th style="width: 20%">Judul</th>
+                    <th style="width: 30%">Cuplikan</th>
+                    <th>Kategori</th>
+                    <th style="width: 20%">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% beritas.forEach((item, index)=> { %>
+                    <tr>
+                        <td>
+                            <%= index + 1 %>
+                        </td>
+                        <td>
+                            <a>
+                                <%= item.title %>
+                            </a>
+                            <br />
+                            <small>
+                                <i class="fas fa-clock"></i>
+                                <%= new Date(item.createdAt).toLocaleDateString() %>
+                            </small>
+                        </td>
+                        <td>
+                            <small>
+                                <%= item.content.substring(0, 100) %>...
+                            </small>
+                        </td>
+                        <td>
+                            <span class="badge badge-success">
+                                <%= item.category %>
+                            </span>
+                        </td>
+                        <td class="project-actions">
+                            <a class="btn btn-info btn-sm" href="/admin/berita/<%= item._id %>/edit">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </a>
+                            <form action="/admin/berita/<%= item._id %>?_method=DELETE" method="POST"
+                                style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus?');">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<!-- Modal Add Berita -->
+<div class="modal fade" id="addBeritaModal" tabindex="-1" role="dialog" aria-labelledby="addBeritaLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBeritaLabel">Tulis Berita Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/admin/berita" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Judul Berita</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select name="category" class="form-control">
+                            <option value="Berita Desa">Berita Desa</option>
+                            <option value="Pengumuman">Pengumuman</option>
+                            <option value="Kegiatan">Kegiatan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Gambar Utama</label>
+                        <div class="custom-file">
+                            <input type="file" name="image" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Pilih file</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Isi Berita</label>
+                        <textarea name="content" class="form-control" rows="10" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Publikasikan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

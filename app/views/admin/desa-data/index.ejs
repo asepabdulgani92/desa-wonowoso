@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title mb-0">Kelola Data Desa</h3>
+        <% if (desaData && desaData._id) { %>
+            <form action="/admin/desa-data/<%= desaData._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Yakin ingin menghapus data desa?');">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash"></i> Hapus Data
+                </button>
+            </form>
+        <% } %>
+    </div>
+    <div class="card-body">
+        <% if (typeof success !== 'undefined' && success.length) { %>
+            <div class="alert alert-success"><%= success %></div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error.length) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <form action="<%= desaData && desaData._id ? `/admin/desa-data/${desaData._id}?_method=PUT` : '/admin/desa-data' %>" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Penduduk</label>
+                        <input type="text" name="penduduk" class="form-control" value="<%= desaData.penduduk || '0' %>" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Kepala Keluarga</label>
+                        <input type="text" name="kepalaKeluarga" class="form-control" value="<%= desaData.kepalaKeluarga || '0' %>" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>RT/RW</label>
+                        <input type="text" name="rtRw" class="form-control" value="<%= desaData.rtRw || '0' %>" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Hektar Luas</label>
+                        <input type="text" name="hektarLuas" class="form-control" value="<%= desaData.hektarLuas || '0' %>" required>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> <%= desaData && desaData._id ? 'Perbarui Data Desa' : 'Simpan Data Desa' %>
+            </button>
+        </form>
+    </div>
+</div>

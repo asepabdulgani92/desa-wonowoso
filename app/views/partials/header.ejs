@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Website Resmi Desa Wonowoso - Portal Informasi dan Pelayanan Desa Digital">
+  <title>
+    <%= title || 'Desa Wonowoso | Portal Resmi' %>
+  </title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader">
+      <div class="loader-icon">
+        <i class="fas fa-leaf"></i>
+      </div>
+      <p>Memuat...</p>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <!-- Panel Kontak -->
+  <div class="contact-panel" id="contactPanel">
+    <div class="contact-box">
+      <h3>Kontak Desa Wonowoso</h3>
+
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Desa Wonowoso, Kec. Karangtengah, Kabupaten Demak, Jawa Tengah 59561</span>
+      </div>
+
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <span>(0291) 123-4567</span>
+      </div>
+
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <span>desawonowoso@gmail.com</span>
+      </div>
+
+      <h4>Jam Operasional</h4>
+      <table class="jam-table">
+        <tr>
+          <td>Senin</td>
+          <td>09.00 - 12.00</td>
+        </tr>
+        <tr>
+          <td>Selasa</td>
+          <td>09.00 - 12.00</td>
+        </tr>
+        <tr>
+          <td>Rabu</td>
+          <td>09.00 - 12.00</td>
+        </tr>
+        <tr>
+          <td>Kamis</td>
+          <td>09.00 - 12.00</td>
+        </tr>
+        <tr>
+          <td>Jumat</td>
+          <td>09.00 - 12.00</td>
+        </tr>
+        <tr class="libur">
+          <td>Sabtu</td>
+          <td>Libur</td>
+        </tr>
+        <tr class="libur">
+          <td>Minggu</td>
+          <td>Libur</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <header id="header">
+    <div class="header-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <img src="/img/logo-icon.png" alt="Logo Desa Wonowoso">
+        </div>
+        <div class="logo-text">
+          <h1>DESA WONOWOSO</h1>
+          <span style="display: block;">Kecamatan Karangtengah, Kabupaten Demak</span>
+          <span style="display: block;">Provinsi Jawa Tengah</span>
+        </div>
+      </div>
+
+      <nav id="navbar">
+        <a href="/" class="nav-link <%= typeof page !== 'undefined' && page === 'beranda' ? 'active' : '' %>">
+          <i class="fas fa-home"></i> Beranda
+        </a>
+        <a href="/profil" class="nav-link <%= typeof page !== 'undefined' && page === 'profil' ? 'active' : '' %>">
+          <i class="fas fa-landmark"></i> Profil
+        </a>
+        <a href="/layanan" class="nav-link <%= typeof page !== 'undefined' && page === 'layanan' ? 'active' : '' %>">
+          <i class="fas fa-file-alt"></i> Layanan
+        </a>
+        <a href="/berita" class="nav-link <%= typeof page !== 'undefined' && page === 'berita' ? 'active' : '' %>">
+          <i class="fas fa-newspaper"></i> Berita
+        </a>
+        <a href="/galeri" class="nav-link <%= typeof page !== 'undefined' && page === 'galeri' ? 'active' : '' %>">
+          <i class="fas fa-images"></i> Galeri
+        </a>
+        <a href="/kontak" class="nav-link <%= typeof page !== 'undefined' && page === 'kontak' ? 'active' : '' %>">
+          <i class="fas fa-envelope"></i> Kontak
+        </a>
+        <a href="/admin/login" class="nav-link">
+          <i class="fas fa-sign-in-alt"></i> Login Admin
+        </a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- User Info / Login Button -->
+        <% if (false) { // TODO: Implement user check if needed, but per request user doesn't login %>
+          <div class="user-info" id="userInfo">
+            <img src="https://ui-avatars.com/api/?name=User&background=random" alt="User" id="userAvatar">
+            <span id="userName">User</span>
+          </div>
+          <% } %>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+              <i class="fas fa-bars"></i>
+            </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <h3>Menu</h3>
+      <button class="close-btn" id="closeMobileNav">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="/" class="mobile-nav-link <%= typeof page !== 'undefined' && page === 'beranda' ? 'active' : '' %>">
+        <i class="fas fa-home"></i> Beranda
+      </a>
+      <a href="/profil" class="mobile-nav-link <%= typeof page !== 'undefined' && page === 'profil' ? 'active' : '' %>">
+        <i class="fas fa-landmark"></i> Profil Desa
+      </a>
+      <a href="/layanan"
+        class="mobile-nav-link <%= typeof page !== 'undefined' && page === 'layanan' ? 'active' : '' %>">
+        <i class="fas fa-file-alt"></i> Layanan
+      </a>
+      <a href="/berita" class="mobile-nav-link <%= typeof page !== 'undefined' && page === 'berita' ? 'active' : '' %>">
+        <i class="fas fa-newspaper"></i> Berita
+      </a>
+      <a href="/galeri" class="mobile-nav-link <%= typeof page !== 'undefined' && page === 'galeri' ? 'active' : '' %>">
+        <i class="fas fa-images"></i> Galeri
+      </a>
+      <a href="/kontak" class="mobile-nav-link <%= typeof page !== 'undefined' && page === 'kontak' ? 'active' : '' %>">
+        <i class="fas fa-envelope"></i> Kontak
+      </a>
+      <a href="/admin/login" class="mobile-nav-link">
+        <i class="fas fa-sign-in-alt"></i> Login Admin
+      </a>
+    </div>
+  </div>
+  <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>

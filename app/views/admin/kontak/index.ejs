@@ -1,0 +1,102 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Kontak & Sosial Media</h3>
+    </div>
+    <div class="card-body">
+        <% if (typeof success !== 'undefined' && success.length) { %>
+            <div class="alert alert-success"><%= success %></div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error.length) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <form action="<%= settings && settings._id ? `/admin/kontak/${settings._id}?_method=PUT` : '/admin/kontak' %>" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nama Brand / Desa</label>
+                        <input type="text" name="brandName" class="form-control" value="<%= settings && settings.brandName ? settings.brandName : 'Desa Wonowoso' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Telepon</label>
+                        <input type="text" name="phone" class="form-control" value="<%= settings && settings.phone ? settings.phone : '(0291) 123-4567' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" value="<%= settings && settings.email ? settings.email : 'desawonowoso@gmail.com' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Jam Operasional</label>
+                        <input type="text" name="operationalHours" class="form-control" value="<%= settings && settings.operationalHours ? settings.operationalHours : 'Senin - Jumat: 08.00 - 15.00 WIB' %>">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Alamat</label>
+                        <textarea name="address" class="form-control" rows="3"><%= settings && settings.address ? settings.address : 'Jl. Raya Wonowoso No. 1, Kec. Karangtengah, Kab. Demak, Jawa Tengah 59566' %></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>URL Embed Google Maps</label>
+                        <input type="text" name="mapEmbedUrl" class="form-control" value="<%= settings && settings.mapEmbedUrl ? settings.mapEmbedUrl : 'https://www.google.com/maps?q=Desa%20Wonowoso&output=embed' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Facebook URL</label>
+                        <input type="text" name="facebookUrl" class="form-control" value="<%= settings && settings.facebookUrl ? settings.facebookUrl : '#' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Instagram URL</label>
+                        <input type="text" name="instagramUrl" class="form-control" value="<%= settings && settings.instagramUrl ? settings.instagramUrl : '#' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Twitter URL</label>
+                        <input type="text" name="twitterUrl" class="form-control" value="<%= settings && settings.twitterUrl ? settings.twitterUrl : '#' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>YouTube URL</label>
+                        <input type="text" name="youtubeUrl" class="form-control" value="<%= settings && settings.youtubeUrl ? settings.youtubeUrl : '#' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>WhatsApp URL</label>
+                        <input type="text" name="whatsappUrl" class="form-control" value="<%= settings && settings.whatsappUrl ? settings.whatsappUrl : '#' %>">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Copyright Text</label>
+                        <input type="text" name="copyrightText" class="form-control" value="<%= settings && settings.copyrightText ? settings.copyrightText : '© 2026 Desa Wonowoso. Hak Cipta Dilindungi.' %>">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Deskripsi Footer</label>
+                        <textarea name="footerDescription" class="form-control" rows="3"><%= settings && settings.footerDescription ? settings.footerDescription : 'Website resmi Desa Wonowoso, Kecamatan Karangtengah, Kabupaten Demak, Jawa Tengah. Melayani dengan sepenuh hati untuk masyarakat.' %></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Simpan
+            </button>
+        </form>
+
+    </div>
+</div>
+

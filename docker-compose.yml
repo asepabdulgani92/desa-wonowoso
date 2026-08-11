@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: desa_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: desa_wonowoso
+
+volumes:
+  mongo_data:

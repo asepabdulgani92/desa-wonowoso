@@ -1,0 +1,283 @@
+<div class="row">
+    <!-- Purity UI Stat Widget (Layanan) -->
+    <div class="col-xl-3 col-sm-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold opacity-7">Total Layanan</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <%= layananCount %>
+                                    <span class="text-success text-sm font-weight-bolder">+55%</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md" <div
+                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md"
+                            style="border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-file-contract text-white text-lg opacity-10" aria-hidden="true"
+                                style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purity UI Stat Widget (Berita) -->
+    <div class="col-xl-3 col-sm-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold opacity-7">Berita Terbit</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <%= beritaCount %>
+                                    <span class="text-success text-sm font-weight-bolder">+3%</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md" <div
+                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md"
+                            style="border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-newspaper text-white text-lg opacity-10" aria-hidden="true"
+                                style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purity UI Stat Widget (Galeri) -->
+    <div class="col-xl-3 col-sm-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold opacity-7">Dokumentasi</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <%= galeriCount %>
+                                    <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md" <div
+                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md"
+                            style="border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-images text-white text-lg opacity-10" aria-hidden="true"
+                                style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purity UI Stat Widget (Kontak) -->
+    <div class="col-xl-3 col-sm-6 mb-4">
+        <div class="card h-100">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold opacity-7">Pesan Pembaca</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <%= contactCount %>
+                                    <span class="text-success text-sm font-weight-bolder">+5%</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md" <div
+                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md"
+                            style="border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-comments text-white text-lg opacity-10" aria-hidden="true"
+                                style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Pengajuan Pending -->
+    <div class="col-xl-4 col-sm-6 mb-4">
+        <div class="card h-100 cursor-pointer" onclick="window.location.href='/admin/pengajuan'">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold opacity-7">Permohonan Masuk</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <%= pendingCount %>
+                                    <span class="text-warning text-sm font-weight-bolder">Pending</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-warning shadow text-center border-radius-md"
+                            style="border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-inbox text-white text-lg opacity-10" aria-hidden="true"
+                                style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pengajuan Approved -->
+    <div class="col-xl-4 col-sm-6 mb-4">
+        <div class="card h-100 cursor-pointer" onclick="window.location.href='/admin/pengajuan?status=Approved'">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold opacity-7">Permohonan Disetujui</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <%= approvedCount %>
+                                    <span class="text-success text-sm font-weight-bolder">Approved</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-success shadow text-center border-radius-md"
+                            style="border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-check-circle text-white text-lg opacity-10" aria-hidden="true"
+                                style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pengajuan Rejected -->
+    <div class="col-xl-4 col-sm-6 mb-4">
+        <div class="card h-100 cursor-pointer" onclick="window.location.href='/admin/pengajuan?status=Rejected'">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold opacity-7">Permohonan Ditolak</p>
+                            <h5 class="font-weight-bolder mb-0">
+                                <%= rejectedCount %>
+                                    <span class="text-danger text-sm font-weight-bolder">Rejected</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-danger shadow text-center border-radius-md"
+                            style="border-radius: 12px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-times-circle text-white text-lg opacity-10" aria-hidden="true"
+                                style="font-size: 1.2rem;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Include this script in dashboard.ejs to render charts (dummy data)
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.Chart) {
+            // Sales Chart Canvas
+            var salesChartCanvas = document.getElementById('revenue-chart-canvas').getContext('2d');
+
+            var salesChartData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [
+                    {
+                        label: 'Pengunjung',
+                        backgroundColor: 'rgba(30, 143, 77, 0.9)',
+                        borderColor: 'rgba(30, 143, 77, 0.8)',
+                        pointRadius: false,
+                        pointColor: '#1e8f4d',
+                        pointStrokeColor: 'rgba(30, 143, 77, 1)',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(30, 143, 77, 1)',
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    },
+                    {
+                        label: 'Pesan',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    }
+                ]
+            };
+
+            var salesChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
+
+            // This will get the first returned node in the jQuery collection.
+            var salesChart = new Chart(salesChartCanvas, {
+                type: 'line',
+                data: salesChartData,
+                options: salesChartOptions
+            });
+
+            // Donut Chart
+            var pieChartCanvas = document.getElementById('sales-chart-canvas').getContext('2d');
+            var pieData = {
+                labels: [
+                    'Layanan',
+                    'Berita',
+                    'Galeri'
+                ],
+                datasets: [
+                    {
+                        data: [30, 20, 50],
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12'],
+                    }
+                ]
+            };
+            var pieOptions = {
+                legend: {
+                    display: false
+                },
+                maintainAspectRatio: false,
+                responsive: true
+            };
+            var pieChart = new Chart(pieChartCanvas, {
+                type: 'doughnut',
+                data: pieData,
+                options: pieOptions
+            });
+        }
+    });
+</script>

@@ -1,0 +1,105 @@
+<%- include('partials/header', { title: 'Berita & Informasi | Desa Wonowoso' , page: 'berita' }) %>
+
+    <main>
+        <!-- ==================== BERITA ==================== -->
+        <section id="berita" class="page active">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Berita & Informasi</h1>
+                    <nav class="breadcrumb">
+                        <a href="/">Beranda</a>
+                        <span>/</span>
+                        <span>Berita</span>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="container">
+                    <div class="berita-filter">
+                        <a href="/berita"
+                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'all') ? 'active' : '' %>">Semua</a>
+                        <a href="/berita/kategori/kegiatan"
+                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'kegiatan') ? 'active' : '' %>">Kegiatan</a>
+                        <a href="/berita/kategori/pembangunan"
+                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'pembangunan') ? 'active' : '' %>">Pembangunan</a>
+                        <a href="/berita/kategori/sosial"
+                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'sosial') ? 'active' : '' %>">Sosial</a>
+                        <a href="/berita/kategori/pengumuman"
+                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'pengumuman') ? 'active' : '' %>">Pengumuman</a>
+                    </div>
+
+                    <div class="berita-grid" id="beritaGrid">
+                        <% if (typeof beritas !=='undefined' && beritas.length> 0) { %>
+                            <% beritas.forEach(berita=> { %>
+                                <a href="/berita/<%= berita._id %>" class="news-card"
+                                    data-category="<%= berita.category ? berita.category.toLowerCase() : 'umum' %>">
+                                    <div class="news-image">
+                                        <img src="<%= berita.image || 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800' %>"
+                                            alt="<%= berita.title %>">
+                                        <div class="news-category">
+                                            <%= berita.category || 'Umum' %>
+                                        </div>
+                                    </div>
+                                    <div class="news-content">
+                                        <div class="news-meta">
+                                            <span><i class="fas fa-calendar"></i>
+                                                <%= new Date(berita.createdAt).toLocaleDateString('id-ID') %>
+                                            </span>
+                                            <% if (berita.author) { %><span><i class="fas fa-user"></i>
+                                                    <%= berita.author %>
+                                                </span>
+                                                <% } %>
+                                        </div>
+                                        <h3>
+                                            <%= berita.title %>
+                                        </h3>
+                                        <p>
+                                            <%= berita.content.substring(0, 100) %>...
+                                        </p>
+                                        <span class="btn btn-text">
+                                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                                        </span>
+                                    </div>
+                                </a>
+                                <% }); %>
+                                    <% } else { %>
+                                        <!-- Static Fallback (Hidden if dynamic data exists or maybe verify later) -->
+                                        <!-- Since we are converting, we can keep static html comments or just render empty if no data -->
+                                        <!-- For now, I will not include the static fallback to encourage using the DB, but usually for "conversion" it's safer to have content. -->
+                                        <!-- I'll put one static item as example if empty -->
+                                        <div class="news-card featured">
+                                            <div class="news-image">
+                                                <img src="https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800"
+                                                    alt="Berita">
+                                                <div class="news-category">Contoh</div>
+                                            </div>
+                                            <div class="news-content">
+                                                <div class="news-meta">
+                                                    <span><i class="fas fa-calendar"></i> - </span>
+                                                    <span><i class="fas fa-user"></i> Admin</span>
+                                                </div>
+                                                <h3>Belum ada berita</h3>
+                                                <p>Saat ini belum ada berita yang diterbitkan. Silakan cek kembali
+                                                    nanti.</p>
+                                                <span class="btn btn-text text-muted">
+                                                    (Contoh Tampilan)
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                    </div>
+
+                    <div class="pagination">
+                        <button class="page-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>

@@ -1,0 +1,124 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Daftar Layanan Desa</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addLayananModal">
+                <i class="fas fa-plus"></i> Tambah Layanan
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped projects">
+                <thead>
+                    <tr>
+                        <th style="width: 1%">#</th>
+                        <th>Nama Layanan</th>
+                        <th>Persyaratan</th>
+                        <th style="width: 20%">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% layanans.forEach((item, index)=> { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <a>
+                                    <%= item.title %>
+                                </a>
+                                <br />
+                                <small>Created <%= new Date().toLocaleDateString() %></small>
+                            </td>
+                            <td>
+                                <ul class="list-inline">
+                                    <% const syarats = (item.requirements && item.requirements.length > 0)
+                                        ? item.requirements
+                                        : (item.description || '').split('\n').map(s => s.trim()).filter(s => s !== ''); %>
+                                    <% syarats.slice(0, 2).forEach(s => { %>
+                                        <li class="list-inline-item">
+                                            <small class="badge badge-success">
+                                                <%= s %>
+                                            </small>
+                                        </li>
+                                    <% }) %>
+                                    <% if (syarats.length > 2) { %>
+                                        <li class="list-inline-item"><small>...</small></li>
+                                    <% } %>
+                                </ul>
+                            </td>
+                            <td class="project-actions">
+                                <a class="btn btn-info btn-sm" href="/admin/layanan/<%= item._id %>/edit">
+                                    <i class="fas fa-pencil-alt"></i> Edit
+                                </a>
+                                <form action="/admin/layanan/<%= item._id %>?_method=DELETE" method="POST"
+                                    style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus?');">
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<!-- Modal Add Layanan -->
+<div class="modal fade" id="addLayananModal" tabindex="-1" role="dialog" aria-labelledby="addLayananLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addLayananLabel">Tambah Layanan Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/admin/layanan" method="POST">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nama Layanan</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi Layanan</label>
+                        <textarea name="description" class="form-control" rows="4" required
+                            placeholder="Jelaskan layanan secara singkat"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Persyaratan</label>
+                        <textarea name="requirements" class="form-control" rows="4"
+                            placeholder="Tulis satu persyaratan per baris"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Icon</label>
+                        <select name="icon" class="form-control" required>
+                            <option value="fas fa-file-alt">Dokumen / Surat</option>
+                            <option value="fas fa-file-signature">Surat / Pengantar</option>
+                            <option value="fas fa-id-card">KTP / Identitas</option>
+                            <option value="fas fa-users">Kelompok / Warga</option>
+                            <option value="fas fa-clipboard-list">Daftar / Proses</option>
+                            <option value="fas fa-landmark">Desa / Pemerintahan</option>
+                            <option value="fas fa-home">Rumah / Warga</option>
+                            <option value="fas fa-map-marker-alt">Lokasi</option>
+                            <option value="fas fa-user-shield">Keamanan / Legal</option>
+                            <option value="fas fa-balance-scale">Hukum / Administrasi</option>
+                            <option value="fas fa-bullhorn">Pengumuman</option>
+                            <option value="fas fa-heart">Layanan Sosial</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

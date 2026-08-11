@@ -1,0 +1,301 @@
+<%- include('partials/header', { title: 'Profil Desa | Desa Wonowoso' , page: 'profil' }) %>
+
+    <main>
+        <!-- ==================== PROFIL ==================== -->
+        <section id="profil" class="page active">
+            <div class="page-header">
+                <div class="container">
+                    <h1>Profil Desa</h1>
+                    <nav class="breadcrumb">
+                        <a href="/">Beranda</a>
+                        <span>/</span>
+                        <span>Profil Desa</span>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="container">
+                    <div class="profile-content">
+                        <div class="profile-tabs">
+                            <button class="tab-btn active" data-tab="sejarah">
+                                <i class="fas fa-history"></i> Sejarah
+                            </button>
+                            <button class="tab-btn" data-tab="visi-misi">
+                                <i class="fas fa-bullseye"></i> Visi & Misi
+                            </button>
+                            <button class="tab-btn" data-tab="geografis">
+                                <i class="fas fa-map"></i> Geografis
+                            </button>
+                            <button class="tab-btn" data-tab="demografi">
+                                <i class="fas fa-users"></i> Demografi
+                            </button>
+                        </div>
+
+                        <div class="tab-content active" id="sejarah">
+                            <div class="content-text">
+                                <h3 style="text-align: center; margin-bottom: 40px; font-size: 28px;">Sejarah Desa
+                                    Wonowoso</h3>
+
+                                <!-- Section 1: Asal Usul -->
+                                <div class="sejarah-section"
+                                    style="display: flex; gap: 40px; align-items: flex-start; margin-bottom: 60px;">
+                                    <div class="sejarah-desc" style="flex: 1.5;">
+                                        <h4
+                                            style="color: var(--primary); margin-bottom: 15px; font-weight: 700; font-size: 20px;">
+                                            Asal Usul Nama "Wonowoso"</h4>
+                                        <p style="text-align: justify; line-height: 1.8; margin-bottom: 15px;">Desa
+                                            Wonowoso memiliki akar sejarah yang terkait erat dengan kisah tradisional
+                                            Kesultanan Demak. Menurut catatan lokal, pada masa Kesultanan Demak —
+                                            kerajaan Islam pertama di Pulau Jawa yang berpengaruh luas pada abad ke-15
+                                            dan 16 — Sultan Raden Patah dikenal karena kebiasaan bertapa (uzlah) untuk
+                                            mencari petunjuk rohani dan kebijakan pemerintah.</p>
+                                        <p style="text-align: justify; line-height: 1.8;">Dikisahkan bahwa beliau sering
+                                            melakukan tapa di sebuah hutan yang berada di wilayah yang kini dikenal
+                                            sebagai Desa Wonowoso. Karena hutan itu menjadi tempat penyepian, masyarakat
+                                            setempat memberi nama <strong
+                                                style="color: var(--primary);">“Wonowoso”</strong> yang berasal dari dua
+                                            kata bahasa Jawa: <em>wono</em> yang berarti hutan, dan <em>woso</em> yang
+                                            berarti tempat menyepi atau uzlah.</p>
+                                    </div>
+                                    <div class="sejarah-img" style="flex: 1;">
+                                        <img src="/images/sejarah-desa.png" alt="Sejarah Desa Wonowoso"
+                                            class="img-fluid rounded shadow-lg"
+                                            style="width: 100%; border-radius: 15px; transform: rotate(2deg); border: 5px solid white;">
+                                        <p
+                                            style="text-align: center; font-size: 13px; color: var(--gray-500); margin-top: 10px;">
+                                            Ilustrasi Hutan Wonowoso Kuno</p>
+                                    </div>
+                                </div>
+
+                                <!-- Section 2: Sowijoyo -->
+                                <div class="sejarah-section"
+                                    style="display: flex; gap: 40px; align-items: flex-start; margin-bottom: 60px;">
+                                    <div class="sejarah-desc" style="flex: 1.5;">
+                                        <h4
+                                            style="color: var(--primary); margin-bottom: 15px; font-weight: 700; font-size: 20px;">
+                                            Perjuangan Sowijoyo Malangyudo</h4>
+                                        <p style="text-align: justify; line-height: 1.8; margin-bottom: 15px;">Seiring
+                                            waktu, area tempat penyepian tersebut mulai menarik perhatian warga untuk
+                                            membuka lahan dan bermukim. Dalam tradisi lisan masyarakat, selain Raden
+                                            Patah yang pernah bertapa di hutan tersebut, disebutkan bahwa ada seorang
+                                            prajurit pilihan bernama <strong style="color: var(--primary);">Sowijoyo
+                                                Malangyudo</strong> yang ditugaskan menjaga tempat keramat itu.</p>
+                                        <p style="text-align: justify; line-height: 1.8;">Makam beliau — yang dianggap
+                                            sebagai salah satu pelopor pembukaan wilayah — berada di kawasan yang
+                                            sekarang termasuk dusun Daon. Petilasan makam Sowijoyo Malangyudo kemudian
+                                            menjadi titik awal berkembangnya permukiman.</p>
+                                    </div>
+                                    <div class="sejarah-img" style="flex: 1;">
+                                        <img src="/images/sejarah-sowijoyo.png" alt="Sowijoyo Malangyudo"
+                                            class="img-fluid rounded shadow-lg"
+                                            style="width: 100%; border-radius: 15px; transform: rotate(2deg); border: 5px solid white;">
+                                        <p
+                                            style="text-align: center; font-size: 13px; color: var(--gray-500); margin-top: 10px;">
+                                            Sowijoyo Malangyudo Membuka Alas</p>
+                                    </div>
+                                </div>
+
+                                <!-- Section 3: Tradisi -->
+                                <div class="sejarah-section" style="display: flex; gap: 40px; align-items: flex-start;">
+                                    <div class="sejarah-desc" style="flex: 1.5;">
+                                        <h4
+                                            style="color: var(--primary); margin-bottom: 15px; font-weight: 700; font-size: 20px;">
+                                            Nilai Tradisi & Kearifan Lokal</h4>
+                                        <p style="text-align: justify; line-height: 1.8; margin-bottom: 15px;">Dalam
+                                            kehidupan masyarakatnya, Desa Wonowoso mempertahankan nilai-nilai budaya dan
+                                            tradisi lokal yang terikat pada sejarah terbentuknya desa. Kegiatan seperti
+                                            <strong style="color: var(--primary);">sedekah bumi (apitan)</strong> yang
+                                            dilaksanakan oleh warga merupakan contoh tradisi agraris yang masih dijaga
+                                            sampai sekarang.
+                                        </p>
+                                        <p style="text-align: justify; line-height: 1.8;">Tradisi semacam itu memiliki
+                                            nilai sosial dan budaya yang mengikat warga, sekaligus menjadi sarana
+                                            memperkuat solidaritas dan rasa memiliki terhadap tanah tempat nenek moyang
+                                            mereka membuka hutan dan membangun permukiman.</p>
+                                    </div>
+                                    <div class="sejarah-img" style="flex: 1;">
+                                        <img src="/images/sejarah-sedekah-bumi.png" alt="Tradisi Sedekah Bumi"
+                                            class="img-fluid rounded shadow-lg"
+                                            style="width: 100%; border-radius: 15px; transform: rotate(2deg); border: 5px solid white;">
+                                        <p
+                                            style="text-align: center; font-size: 13px; color: var(--gray-500); margin-top: 10px;">
+                                            Tradisi Sedekah Bumi (Apitan)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="visi-misi">
+                        <div class="vision-mission">
+                            <div class="vision-card">
+                                <div class="vm-icon"><i class="fas fa-eye"></i></div>
+                                <h3>Visi</h3>
+                                <p>"<%= (profil && profil.visi) ? profil.visi
+                                        : 'Terwujudnya Desa Wonowoso yang Maju, Mandiri, dan Sejahtera Berlandaskan Nilai-Nilai Religius dan Kearifan Lokal'
+                                        %>"</p>
+                            </div>
+                            <div class="mission-card">
+                                <div class="vm-icon"><i class="fas fa-flag"></i></div>
+                                <h3>Misi</h3>
+                                <% if (profil && profil.misi && profil.misi.length> 0) { %>
+                                    <ul>
+                                        <% profil.misi.forEach(m=> { %>
+                                            <li>
+                                                <%= m %>
+                                            </li>
+                                            <% }) %>
+                                    </ul>
+                                    <% } else { %>
+                                        <ul>
+                                            <li>Meningkatkan kualitas pelayanan publik berbasis teknologi</li>
+                                            <li>Mengembangkan ekonomi masyarakat melalui UMKM dan pertanian</li>
+                                            <li>Membangun infrastruktur yang berkualitas dan berkelanjutan</li>
+                                            <li>Meningkatkan kualitas pendidikan dan kesehatan masyarakat</li>
+                                            <li>Melestarikan budaya dan kearifan lokal</li>
+                                        </ul>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="geografis">
+                        <div class="geo-grid">
+                            <div class="geo-info">
+                                <h3>Letak Geografis</h3>
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="info-label">Provinsi</span>
+                                        <span class="info-value">Jawa Tengah</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Kabupaten</span>
+                                        <span class="info-value">Demak</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Kecamatan</span>
+                                        <span class="info-value">Karangtengah</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Desa</span>
+                                        <span class="info-value">Wonowoso</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Kode Pos</span>
+                                        <span class="info-value">59561</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Luas Wilayah</span>
+                                        <span class="info-value">156 Hektar</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Ketinggian</span>
+                                        <span class="info-value">25 mdpl</span>
+                                    </div>
+                                </div>
+                                <h4>Batas Wilayah</h4>
+                                <div class="info-list">
+                                    <div class="info-item">
+                                        <span class="info-label">Utara</span>
+                                        <span class="info-value">Desa Rejosari (Karangtengah)</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Selatan</span>
+                                        <span class="info-value">Desa Wonokerto (Karangtengah)</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Timur</span>
+                                        <span class="info-value">Desa Karangtowo (Karangtengah)</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Barat</span>
+                                        <span class="info-value">Desa Sidorejo (Kecamatan Sayung)</span>
+                                    </div>
+                                </div>
+                                <% if (profil && profil.imageGeografis) { %>
+                                    <div class="geo-map mt-4">
+                                        <img src="<%= profil.imageGeografis %>" alt="Peta Geografis"
+                                            class="img-fluid rounded shadow-sm w-100">
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <div class="geo-desc">
+                                <h3>Deskripsi Wilayah</h3>
+                                <p style="white-space: pre-line;">
+                                    <%= (profil && profil.geografis) ? profil.geografis
+                                        : 'Desa Wonowoso terletak di Kecamatan Karangtengah, Kabupaten Demak. Wilayah ini didominasi oleh lahan pertanian produktif yang menjadi sumber mata pencaharian utama penduduk.'
+                                        %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="demografi">
+                        <div class="demo-grid">
+                            <div class="demo-chart">
+                                <h3>Statistik Penduduk</h3>
+                                <div class="chart-container">
+                                    <% if (profil && profil.imageDemografis) { %>
+                                        <img src="<%= profil.imageDemografis %>"
+                                            class="img-fluid rounded shadow-sm w-100" alt="Grafik Demografi">
+                                        <% } else { %>
+                                            <!-- Fallback content if no image -->
+                                            <div class="stat-items">
+                                                <div class="stat-item">
+                                                    <div class="stat-value">5,248</div>
+                                                    <div class="stat-label">Total Penduduk</div>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <div class="stat-value">2,654</div>
+                                                    <div class="stat-label">Laki-laki</div>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <div class="stat-value">2,594</div>
+                                                    <div class="stat-label">Perempuan</div>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <div class="stat-value">1,432</div>
+                                                    <div class="stat-label">Kepala Keluarga</div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                </div>
+                            </div>
+                            <div class="demo-desc">
+                                <h3>Data Kependudukan</h3>
+                                <p style="white-space: pre-line;">
+                                    <%= (profil && profil.demografis) ? profil.demografis
+                                        : 'Penduduk Desa Wonowoso mayoritas berprofesi sebagai petani dan pedagang. Struktur demografi menunjukkan populasi usia produktif yang dominan, menjadi potensi besar untuk pengembangan ekonomi desa.'
+                                        %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('partials/footer') %>
+
+        <script>
+            // Tab Switching Logic
+            document.addEventListener('DOMContentLoaded', () => {
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Remove active class from all buttons and contents
+                        tabBtns.forEach(b => b.classList.remove('active'));
+                        tabContents.forEach(c => c.classList.remove('active'));
+
+                        // Add active class to clicked button and corresponding content
+                        btn.classList.add('active');
+                        const tabId = btn.getAttribute('data-tab');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+            });
+        </script>

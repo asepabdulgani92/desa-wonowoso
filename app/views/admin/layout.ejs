@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        <%= title %> | Admin Desa Wonowoso
+    </title>
+
+    <!-- Google Font: Inter (Metronic's default) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css">
+    <!-- Theme style (AdminLTE) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.0/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.css">
+
+    <style>
+        /* --- Purity UI Variables & Global Styles --- */
+        :root {
+            --chakra-colors-teal-300: #1e8f4d;
+            --chakra-colors-teal-400: #166d3b;
+            --brand-gradient: linear-gradient(111.84deg, #1e8f4d 0%, #166d3b 100%);
+            /* Primary Brand Color */
+            --chakra-colors-gray-50: #F7FAFC;
+            --chakra-colors-gray-100: #EDF2F7;
+            --chakra-colors-gray-400: #A0AEC0;
+            --chakra-colors-gray-500: #718096;
+            --chakra-colors-gray-700: #2D3748;
+            --chakra-colors-white: #FFFFFF;
+            --chakra-shadows-base: 0px 3.5px 5.5px rgba(0, 0, 0, 0.02);
+            --chakra-radii-xl: 15px;
+            --chakra-radii-lg: 12px;
+        }
+
+        body {
+            font-family: 'Inter', Helvetica, "sans-serif" !important;
+            background-color: var(--chakra-colors-gray-50) !important;
+            color: var(--chakra-colors-gray-700);
+        }
+
+        /* --- Navbar (Glassmorphism) --- */
+        .main-header {
+            background: rgba(255, 255, 255, 0.8) !important;
+            backdrop-filter: saturate(200%) blur(30px) !important;
+            box-shadow: none !important;
+            border-bottom: none !important;
+            margin: 15px 15px 0 15px;
+            border-radius: var(--chakra-radii-xl);
+            position: sticky;
+            top: 15px;
+            z-index: 1040;
+        }
+
+        .main-header .nav-link {
+            color: var(--chakra-colors-gray-500) !important;
+            font-weight: 600;
+        }
+
+        /* --- Sidebar (Floating & Rounded) --- */
+        .main-sidebar {
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding: 15px;
+        }
+
+        .sidebar {
+            background: #ffffff !important;
+            /* White Sidebar for Modern Look */
+            border-radius: var(--chakra-radii-xl);
+            height: calc(100vh - 30px) !important;
+            box-shadow: 0px 20px 27px 0px rgba(0, 0, 0, 0.05) !important;
+            overflow-y: hidden;
+            position: relative;
+        }
+
+        .brand-link {
+            border-bottom: 1px solid var(--chakra-colors-gray-100) !important;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-text {
+            color: var(--chakra-colors-teal-300) !important;
+            /* Green Text */
+            font-weight: 800;
+            letter-spacing: 0px;
+            font-size: 1.2rem;
+        }
+
+        /* Sidebar Menu (Light Theme) */
+        .nav-sidebar .nav-item {
+            margin-bottom: 8px;
+            padding: 0 10px;
+        }
+
+        .nav-sidebar .nav-link {
+            color: var(--chakra-colors-gray-500) !important;
+            font-weight: 600;
+            border-radius: var(--chakra-radii-lg);
+            padding: 12px 15px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-sidebar .nav-link:hover {
+            background-color: var(--chakra-colors-gray-50) !important;
+            color: var(--chakra-colors-teal-300) !important;
+            transform: translateX(5px);
+            box-shadow: none;
+        }
+
+        .nav-sidebar .nav-link.active {
+            background-color: var(--chakra-colors-teal-300) !important;
+            /* Green Active BG */
+            color: #ffffff !important;
+            box-shadow: 0px 3.5px 5.5px rgba(30, 143, 77, 0.4) !important;
+            transform: translateX(5px);
+        }
+
+        .nav-sidebar .nav-header {
+            color: var(--chakra-colors-gray-400) !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            padding: 20px 25px 10px;
+        }
+
+        /* Disable Scrollbar for sidebar to keep it clean */
+        .sidebar::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* --- Content Wrapper (Adjust for floating sidebar) --- */
+        .content-wrapper {
+            background-color: var(--chakra-colors-gray-50) !important;
+            margin-top: 25px;
+            /* Space for the navbar */
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 40px 40px;
+            /* Subtle dot pattern on body */
+        }
+
+        .content-header {
+            padding: 20px 15px !important;
+        }
+
+        .content-header h1 {
+            font-weight: 700;
+            color: var(--chakra-colors-gray-700);
+            font-size: 1.5rem;
+        }
+
+        /* --- Cards (Purity Style + Hover) --- */
+        .card {
+            border-radius: var(--chakra-radii-xl) !important;
+            box-shadow: 0px 3.5px 5.5px rgba(0, 0, 0, 0.02) !important;
+            border: none !important;
+            background: #ffffff;
+            margin-bottom: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .card-header {
+            background: transparent !important;
+            border-bottom: none !important;
+            padding: 20px 24px !important;
+        }
+
+        .card-title {
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            color: var(--chakra-colors-gray-700) !important;
+        }
+
+        .card-body {
+            padding: 24px !important;
+            color: var(--chakra-colors-gray-500);
+        }
+
+        /* --- Buttons --- */
+        /* --- Buttons (Green) --- */
+        .btn-primary {
+            background: linear-gradient(111.84deg, #1e8f4d 0%, #166d3b 100%) !important;
+            border: none !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0px 7px 11px rgba(30, 143, 77, 0.4);
+            background: linear-gradient(111.84deg, #166d3b 0%, #1e8f4d 100%) !important;
+        }
+
+        .btn-outline-primary {
+            color: #1e8f4d !important;
+            border-color: #1e8f4d !important;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #1e8f4d !important;
+            color: #ffffff !important;
+        }
+
+        /* --- Global Gradients & Colors --- */
+        .bg-gradient-primary {
+            background: linear-gradient(111.84deg, #1e8f4d 0%, #166d3b 100%) !important;
+        }
+
+        a {
+            color: #1e8f4d;
+        }
+
+        a:hover {
+            color: #166d3b;
+        }
+
+        /* --- Pagination --- */
+        .page-item.active .page-link {
+            background-color: #1e8f4d !important;
+            border-color: #1e8f4d !important;
+        }
+
+        .page-link {
+            color: #1e8f4d !important;
+        }
+
+        /* --- Forms --- */
+        .form-control {
+            border-radius: 15px !important;
+            border: 1px solid #E2E8F0 !important;
+            padding: 20px !important;
+            height: auto !important;
+        }
+
+        .form-control:focus {
+            border-color: #1e8f4d !important;
+            box-shadow: 0 0 0 1px #1e8f4d !important;
+        }
+
+        .btn-info {
+            background-color: #1e8f4d !important;
+            border-color: #1e8f4d !important;
+            color: #ffffff !important;
+            opacity: 0.9;
+        }
+
+        .btn-info:hover {
+            background-color: #166d3b !important;
+            opacity: 1;
+        }
+
+        .btn-success {
+            background-color: #166d3b !important;
+            /* Darker Green */
+            border-color: #166d3b !important;
+        }
+
+        .badge-success {
+            background-color: #1e8f4d !important;
+        }
+
+        .bg-success {
+            background-color: #1e8f4d !important;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            background: transparent !important;
+            border-top: none !important;
+            color: var(--chakra-colors-gray-400);
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="/" class="nav-link" target="_blank">Lihat Website</a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar elevation-0">
+            <!-- Brand Logo -->
+            <a href="/admin/dashboard" class="brand-link">
+                <!-- Use a generic leaf icon if image not available or just text -->
+                <i class="fas fa-leaf ml-2 mr-3" style="color:#1e8f4d; font-size: 1.4rem;"></i>
+                <span class="brand-text">Desa Wonowoso</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar Menu -->
+                <nav class="mt-4">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        <li class="nav-item">
+                            <a href="/admin/dashboard"
+                                class="nav-link <%= title === 'Dashboard Admin' ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-chart-line"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">CONTENT MANAGEMENT</li>
+                        <li class="nav-item">
+                            <a href="/admin/layanan" class="nav-link <%= title.includes('Layanan') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-file-contract"></i>
+                                <p>Layanan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/berita" class="nav-link <%= title.includes('Berita') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-newspaper"></i>
+                                <p>Berita & Artikel</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/galeri" class="nav-link <%= title.includes('Galeri') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-images"></i>
+                                <p>Galeri Foto</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/profil" class="nav-link <%= title.includes('Profil') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-landmark"></i>
+                                <p>Profil Desa</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/pengajuan" class="nav-link <%= title.includes('Pengajuan') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-file-signature"></i>
+                                <p>Pengajuan Surat</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/desa-data" class="nav-link <%= title.includes('Data Desa') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-chart-bar"></i>
+                                <p>Data Desa</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/perangkat-desa" class="nav-link <%= title.includes('Perangkat Desa') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-user-tie"></i>
+                                <p>Perangkat Desa</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">COMMUNICATION</li>
+
+                        <li class="nav-item">
+                            <a href="/admin/kontak" class="nav-link <%= title === 'Kontak' || title.includes('Kontak') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-cog"></i>
+                                <p>Kontak</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/admin/inbox-pesan" class="nav-link <%= title === 'Inbox Pesan' || title.includes('Inbox') || title.includes('Kotak Masuk') ? 'active' : '' %>">
+                                <i class="nav-icon fas fa-envelope-open-text"></i>
+                                <p>Inbox Pesan</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">
+                                <%= title %>
+                            </h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                                <li class="breadcrumb-item active">
+                                    <%= title %>
+                                </li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <%- body %>
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2026 <a href="#">Desa Wonowoso</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.13.0/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.js"></script>
+
+    <!-- Global Script for Widgets -->
+    <script>
+        $(function () {
+            // Make the dashboard widgets work (if present)
+            $('.connectedSortable').sortable({
+                placeholder: 'sort-highlight',
+                connectWith: '.connectedSortable',
+                handle: '.card-header, .nav-tabs',
+                forcePlaceholderSize: true,
+                zIndex: 999999
+            });
+            $('.connectedSortable .card-header').css('cursor', 'move');
+        });
+    </script>
+</body>
+
+</html>

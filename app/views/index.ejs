@@ -1,0 +1,295 @@
+<%- include('partials/header', { title: 'Desa Wonowoso | Portal Resmi' , page: 'beranda' }) %>
+
+    <!-- Main Content -->
+    <main>
+        <!-- ==================== BERANDA ==================== -->
+        <section id="beranda" class="page active">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-bg">
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i> Website Resmi Desa
+                    </div>
+                    <h1 class="hero-title">
+                        Selamat Datang di<br>
+                        <span class="highlight">Desa Wonowoso</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Membangun Desa Maju, Mandiri, dan Sejahtera Berbasis Teknologi Digital
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="/layanan" class="btn btn-primary btn-lg">
+                            <i class="fas fa-file-signature"></i> Layanan Online
+                        </a>
+                        <a href="/profil" class="btn btn-outline btn-lg">
+                            <i class="fas fa-info-circle"></i> Tentang Desa
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="<%= desaData && desaData.penduduk ? desaData.penduduk : 0 %>">0</div>
+                            <div class="stat-label">Penduduk</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="<%= desaData && desaData.kepalaKeluarga ? desaData.kepalaKeluarga : 0 %>">0</div>
+                            <div class="stat-label">Kepala Keluarga</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="<%= desaData && desaData.rtRw ? desaData.rtRw : 0 %>">0</div>
+                            <div class="stat-label">RT/RW</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-count="<%= desaData && desaData.hektarLuas ? desaData.hektarLuas : 0 %>">0</div>
+                            <div class="stat-label">Hektar Luas</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-indicator">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <!-- Services Section -->
+            <div class="section services-section">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-badge">Layanan Kami</span>
+                        <h2 class="section-title">Pelayanan Prima untuk Warga</h2>
+                        <p class="section-subtitle">Berbagai layanan administrasi dan informasi yang dapat diakses
+                            secara online</p>
+                    </div>
+                    <div class="services-grid">
+                        <a href="/layanan" class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <h3>Layanan Surat</h3>
+                            <p>Pengajuan surat keterangan, pengantar, dan dokumen lainnya secara online</p>
+                            <div class="service-link">
+                                Selengkapnya <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+                        <a href="/layanan" class="service-card">
+                            <div class="service-icon secondary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>Data Penduduk</h3>
+                            <p>Manajemen data kependudukan dan statistik warga desa</p>
+                            <div class="service-link">
+                                Selengkapnya <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+                        <a href="/berita" class="service-card">
+                            <div class="service-icon tertiary">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <h3>Informasi & Berita</h3>
+                            <p>Berita terkini, pengumuman, dan kegiatan desa</p>
+                            <div class="service-link">
+                                Selengkapnya <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                        <a href="/kontak" class="service-card">
+                            <div class="service-icon quinary">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>Pengaduan</h3>
+                            <p>Sampaikan aspirasi dan keluhan Anda</p>
+                            <div class="service-link">
+                                Selengkapnya <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- News Section -->
+            <div class="section news-section">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-badge">Berita & Informasi</span>
+                        <h2 class="section-title">Berita Terbaru Desa</h2>
+                        <p class="section-subtitle">Ikuti perkembangan terkini dari Desa Wonowoso</p>
+                    </div>
+                    <div class="news-grid">
+                        <% if (typeof beritas !=='undefined' && beritas.length> 0) { %>
+                            <% beritas.forEach(function(berita, index) { %>
+                                <div class="news-card <%= index === 0 ? 'featured' : '' %>">
+                                    <div class="news-image">
+                                        <img src="<%= berita.image || 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800' %>"
+                                            alt="<%= berita.title %>">
+                                        <div class="news-category">
+                                            <%= berita.category || 'Umum' %>
+                                        </div>
+                                    </div>
+                                    <div class="news-content">
+                                        <div class="news-meta">
+                                            <span><i class="fas fa-calendar"></i>
+                                                <%= new Date(berita.createdAt).toLocaleDateString('id-ID') %>
+                                            </span>
+                                            <% if (berita.author) { %><span><i class="fas fa-user"></i>
+                                                    <%= berita.author %>
+                                                </span>
+                                                <% } %>
+                                        </div>
+                                        <h3>
+                                            <%= berita.title %>
+                                        </h3>
+                                        <p>
+                                            <%= berita.content.substring(0, 100) %>...
+                                        </p>
+                                        <a href="/berita/<%= berita._id %>" class="btn btn-text">
+                                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                    <% } else { %>
+                                        <!-- Static Content Fallback (if no data yet) -->
+                                        <div class="news-card featured">
+                                            <div class="news-image">
+                                                <img src="https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800"
+                                                    alt="Berita">
+                                                <div class="news-category">Kegiatan</div>
+                                            </div>
+                                            <div class="news-content">
+                                                <div class="news-meta">
+                                                    <span><i class="fas fa-calendar"></i> 20 Maret 2026</span>
+                                                    <span><i class="fas fa-user"></i> Admin</span>
+                                                </div>
+                                                <h3>Gotong Royong Pembersihan Saluran Irigasi</h3>
+                                                <p>Warga Desa Wonowoso bersama-sama melaksanakan kerja bakti
+                                                    membersihkan saluran irigasi demi kelancaran pengairan sawah
+                                                    menjelang musim tanam.</p>
+                                                <button class="btn btn-text">
+                                                    Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- More static cards... -->
+                                        <% } %>
+                    </div>
+                    <div class="section-footer">
+                        <a href="/berita" class="btn btn-primary">
+                            <i class="fas fa-newspaper"></i> Lihat Semua Berita
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="section about-section">
+                <div class="container">
+                    <div class="about-grid">
+                        <div class="about-images">
+                            <div class="about-img-main">
+                                <img src="https://images.unsplash.com/photo-1518457607834-6e8d80c183c5?w=600"
+                                    alt="Desa Wonowoso">
+                            </div>
+                            <div class="about-img-secondary">
+                                <img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?w=400" alt="Sawah">
+                            </div>
+                            <div class="about-experience">
+                                <div class="exp-number">25+</div>
+                                <div class="exp-text">Tahun Berdiri</div>
+                            </div>
+                        </div>
+                        <div class="about-content">
+                            <span class="section-badge">Tentang Kami</span>
+                            <h2 class="section-title">Desa Wonowoso, Desa Maju Berbasis Kearifan Lokal</h2>
+                            <p class="about-text">
+                                Desa Wonowoso terletak di Kabupaten Demak, Jawa Tengah. Dengan luas wilayah 232 Hektar,
+                                desa ini dihuni oleh lebih dari 5.000 jiwa yang mayoritas bermata pencaharian sebagai
+                                petani dan pedagang.
+                            </p>
+                            <p class="about-text">
+                                Kami berkomitmen untuk membangun desa yang maju, mandiri, dan sejahtera dengan tetap
+                                menjaga nilai-nilai kearifan lokal dan gotong royong.
+                            </p>
+                            <div class="about-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Pelayanan Prima 24/7</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Administrasi Online</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Transparansi Anggaran</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Infrastruktur Modern</span>
+                                </div>
+                            </div>
+                            <a href="/profil" class="btn btn-primary">
+                                <i class="fas fa-landmark"></i> Profil Lengkap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="section team-section">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-badge">Pemerintah Desa</span>
+                        <h2 class="section-title">Perangkat Desa Wonowoso</h2>
+                        <p class="section-subtitle">Melayani dengan sepenuh hati untuk kemajuan desa</p>
+                    </div>
+                    <div class="team-grid">
+                        <% if (perangkatDesa && perangkatDesa.length) { %>
+                            <% perangkatDesa.forEach((person) => { %>
+                                <div class="team-card">
+                                    <div class="team-image">
+                                        <img src="<%= person.photo || 'https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png' %>"
+                                            alt="<%= person.name %>">
+                                    </div>
+                                    <div class="team-info">
+                                        <h4><%= person.name %></h4>
+                                        <span><%= person.position %></span>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <div class="team-card">
+                                <div class="team-image">
+                                    <img src="https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png"
+                                        alt="Kepala Desa">
+                                </div>
+                                <div class="team-info">
+                                    <h4>Pak Jarwo</h4>
+                                    <span>Kepala Desa</span>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="cta-section">
+                <div class="container">
+                    <div class="cta-content">
+                        <h2>Butuh Layanan Surat?</h2>
+                        <p>Ajukan permohonan surat secara online, cepat dan mudah tanpa harus antri!</p>
+                        <a href="/layanan" class="btn btn-white btn-lg">
+                            <i class="fas fa-file-signature"></i> Ajukan Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFIL USER section removed from index.ejs as it should be a separate page or modal -->
+    </main>
+
+    <%- include('partials/footer') %>

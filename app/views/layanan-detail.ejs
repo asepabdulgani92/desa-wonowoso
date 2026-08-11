@@ -1,0 +1,260 @@
+<%- include('partials/header', { title: layanan.title + ' | Layanan Desa Wonowoso' , page: 'layanan' }) %>
+
+    <div class="detail-hero">
+        <div class="detail-hero-bg"></div>
+        <div class="container position-relative z-index-1">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <nav aria-label="breadcrumb" class="mb-3">
+                        <ol class="breadcrumb breadcrumb-dark mb-0">
+                            <li class="breadcrumb-item"><a href="/"><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="/layanan">Layanan</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Detail Layanan</li>
+                        </ol>
+                    </nav>
+                    <h1 class="display-4 fw-bold text-white mb-3">
+                        <%= layanan.title %>
+                    </h1>
+                    <p class="lead text-white-50 mb-0">Lengkapi persyaratan dan ajukan permohonan surat secara online
+                        dengan mudah dan cepat.</p>
+                </div>
+                <div class="col-lg-4 text-end d-none d-lg-block">
+                    <div class="icon-circle-lg bg-white-20 backdrop-blur">
+                        <i class="<%= layanan.icon || 'fas fa-file-alt' %> text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section detail-content-section">
+        <div class="container">
+            <div class="row">
+                <!-- Left Column: Info & Requirements -->
+                <div class="col-lg-8 mb-5">
+                    <div class="card border-0 shadow-lg rounded-lg overflow-hidden mb-4">
+                        <div class="card-body p-5">
+                            <div class="mb-5">
+                                <h4 class="section-title-sm mb-3">
+                                    <span class="icon-wrapper bg-primary-light text-primary me-2">
+                                        <i class="fas fa-info-circle"></i>
+                                    </span>
+                                    Deskripsi Layanan
+                                </h4>
+                                <p class="text-muted leading-relaxed">
+                                    <%= layanan.description %>
+                                </p>
+                            </div>
+
+                            <div class="mb-5">
+                                <h4 class="section-title-sm mb-3">
+                                    <span class="icon-wrapper bg-info-light text-info me-2">
+                                        <i class="fas fa-list-check"></i>
+                                    </span>
+                                    Persyaratan Dokumen
+                                </h4>
+                                <% if (layanan.requirements && layanan.requirements.length> 0) { %>
+                                    <div class="requirements-grid">
+                                        <% layanan.requirements.forEach(req=> { %>
+                                            <div class="requirement-item">
+                                                <i class="fas fa-check-circle text-success"></i>
+                                                <span>
+                                                    <%= req %>
+                                                </span>
+                                            </div>
+                                            <% }); %>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="alert alert-light border-0">
+                                            <i class="fas fa-info-circle me-2"></i> Tidak ada persyaratan khusus untuk
+                                            layanan ini.
+                                        </div>
+                                        <% } %>
+                                    
+                                    </div>
+
+                            <!-- <% if (layanan.templateDoc) { %>
+                                <div class="template-card">
+                                    <div class="d-flex align-items-center">
+                                        <div class="file-icon me-3">
+                                            <i class="fas fa-file-word text-primary"></i>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1 fw-bold">Dokumen Template</h6>
+                                            <p class="mb-0 small text-muted">Unduh format surat yang diperlukan</p>
+                                        </div>
+                                        <a href="/uploads/template_docs/<%= layanan.templateDoc %>"
+                                            class="btn btn-primary btn-sm rounded-pill px-4" download>
+                                            <i class="fas fa-download me-2"></i> Download
+                                        </a>
+                                    </div>
+                                </div>
+                                <% } %> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Submission Form -->
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-xl rounded-lg sticky-top" style="top: 100px; z-index: 10;">
+                        <div class="card-header bg-white border-0 pt-4 pb-0 px-0">
+                            <h3 class="mb-0 fw-bold text-dark d-flex align-items-center">
+                                <span class="icon-wrapper-sm bg-success text-white me-2 rounded-circle">
+                                    <i class="fas fa-paper-plane"></i>
+                                </span>
+                                Form Pengajuan
+                            </h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <form action="/layanan/ajukan" method="POST" enctype="multipart/form-data"
+                                class="needs-validation" onsubmit="return validateForm()">
+                                <input type="hidden" name="layananId" value="<%= layanan._id %>">
+                                <input type="hidden" name="namaLayanan" value="<%= layanan.title %>">
+
+                                <div class="mb-4">
+                                    <p class="text-lg fw-bold text-uppercase text-muted mb-3">Identitas Diri</p>
+                                    <div class="mb-3">
+                                        <label for="nama" class="form-label">Nama Lengkap Sesuai KTP</label>
+                                        <input type="text" name="nama" class="form-control bg-light border-0" id="nama"
+                                            placeholder="Masukkan nama lengkap" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="jenisKelamin" class="form-label">Jenis Kelamin</label>
+                                            <select name="jenisKelamin" id="jenisKelamin" class="form-select bg-light border-0" required>
+                                                <option value="">Pilih Jenis Kelamin</option>
+                                                <option value="Laki-laki">Laki-laki</option>
+                                                <option value="Perempuan">Perempuan</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="tempatLahir" class="form-label">Tempat Lahir</label>
+                                            <input type="text" name="tempatLahir" class="form-control bg-light border-0" id="tempatLahir"
+                                                placeholder="Masukkan tempat lahir" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="tanggalLahir" class="form-label">Tanggal Lahir</label>
+                                            <input type="date" name="tanggalLahir" class="form-control bg-light border-0" id="tanggalLahir"
+                                                required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="kewarganegaraan" class="form-label">Kewarganegaraan</label>
+                                            <input type="text" name="kewarganegaraan" class="form-control bg-light border-0" id="kewarganegaraan"
+                                                placeholder="Masukkan kewarganegaraan" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="agama" class="form-label">Agama</label>
+                                            <input type="text" name="agama" class="form-control bg-light border-0" id="agama"
+                                                placeholder="Masukkan agama" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="pekerjaan" class="form-label">Pekerjaan</label>
+                                            <input type="text" name="pekerjaan" class="form-control bg-light border-0" id="pekerjaan"
+                                                placeholder="Masukkan pekerjaan" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="address" class="form-label">Tempat Tinggal</label>
+                                            <input type="text" name="address" class="form-control bg-light border-0" id="address"
+                                                placeholder="Masukkan tempat tinggal" required>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="rt" class="form-label">RT</label>
+                                            <input type="text" name="rt" class="form-control bg-light border-0" id="rt"
+                                                placeholder="RT" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="rw" class="form-label">RW</label>
+                                            <input type="text" name="rw" class="form-control bg-light border-0" id="rw"
+                                                placeholder="RW" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4 ">
+                                    <p class="text-lg fw-bold text-uppercase text-muted mb-3">Kontak</p>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Alamat Email</label>
+                                        <input type="email" name="email" class="form-control bg-light border-0"
+                                            id="email" placeholder="Masukkan email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Nomor WhatsApp Aktif</label>
+                                        <input type="tel" name="phone" class="form-control bg-light border-0" id="phone"
+                                            placeholder="Masukkan nomor WhatsApp" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <p class="text-lg fw-bold text-uppercase text-muted mb-3">Detail Permohonan</p>
+                                    <div class="mb-3">
+                                        <label for="keperluan" class="form-label">Keperluan</label>
+                                        <textarea name="keperluan" class="form-control bg-light border-0"
+                                            id="keperluan" placeholder="Tuliskan keperluan" style="min-height: 100px"
+                                            required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label text-xs fw-bold text-uppercase text-muted">Berkas Persyaratan</label>
+                                    <div class="mb-3">
+                                        <label for="ktpFile" class="form-label">File KTP</label>
+                                        <input type="file" name="ktpFile" id="ktpFile" class="form-control bg-light border-0"
+                                            accept=".pdf,.jpg,.jpeg,.png">
+                                        <div class="form-text">Wajib Lampirkan KTP</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="kkFile" class="form-label">File KK</label>
+                                        <input type="file" name="kkFile" id="kkFile" class="form-control bg-light border-0"
+                                            accept=".pdf,.jpg,.jpeg,.png">
+                                        <div class="form-text">Wajib Lampirkan KK</div>
+                                    </div>
+                                </div>
+
+                                <button type="submit"
+                                    class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-lg hvr-grow ">
+                                    <i class="fas fa-paper-plane me-2"></i> Kirim Permohonan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            const placeholder = document.getElementById('uploadPlaceholder');
+            const fileList = document.getElementById('fileList');
+            const label = document.getElementById('fileNameLabel');
+
+            if (input.files && input.files.length > 0) {
+                placeholder.classList.add('d-none');
+                fileList.classList.remove('d-none');
+
+                if (input.files.length === 1) {
+                    label.textContent = input.files[0].name;
+                } else {
+                    label.textContent = input.files.length + ' file dipilih';
+                }
+            } else {
+                placeholder.classList.remove('d-none');
+                fileList.classList.add('d-none');
+            }
+        }
+
+        function validateForm() {
+            // Optional: Add custom validation logic here
+            return true;
+        }
+    </script>
+
+    <%- include('partials/footer') %>

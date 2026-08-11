@@ -1,0 +1,74 @@
+<!-- Footer -->
+<footer>
+    <div class="footer-main">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <img src="/img/logo-icon.png" alt="Logo Desa Wonowoso">
+                        </div>
+                        <div class="logo-text">
+                            <h3>DESA WONOWOSO</h3>
+                            <span class="d-block" style="line-height: 1.3;">Kecamatan Karangtengah, Kabupaten
+                                Demak<br>Provinsi Jawa Tengah</span>
+                        </div>
+                    </div>
+                    <p><%= typeof siteSettings !== 'undefined' && siteSettings && siteSettings.footerDescription ? siteSettings.footerDescription : 'Website resmi Desa Wonowoso, Kecamatan Karangtengah, Kabupaten Demak, Jawa Tengah. Melayani dengan sepenuh hati untuk masyarakat.' %></p>
+                    <div class="footer-social">
+                        <% const footerSocials = [
+                            { url: typeof siteSettings !== 'undefined' && siteSettings && siteSettings.facebookUrl ? siteSettings.facebookUrl : '#', icon: 'fab fa-facebook-f' },
+                            { url: typeof siteSettings !== 'undefined' && siteSettings && siteSettings.instagramUrl ? siteSettings.instagramUrl : '#', icon: 'fab fa-instagram' },
+                            { url: typeof siteSettings !== 'undefined' && siteSettings && siteSettings.twitterUrl ? siteSettings.twitterUrl : '#', icon: 'fab fa-twitter' },
+                            { url: typeof siteSettings !== 'undefined' && siteSettings && siteSettings.youtubeUrl ? siteSettings.youtubeUrl : '#', icon: 'fab fa-youtube' },
+                            { url: typeof siteSettings !== 'undefined' && siteSettings && siteSettings.whatsappUrl ? siteSettings.whatsappUrl : '#', icon: 'fab fa-whatsapp' }
+                        ]; %>
+                        <% footerSocials.forEach(social => { %>
+                            <a href="<%= social.url %>" target="_blank" rel="noopener noreferrer"><i class="<%= social.icon %>"></i></a>
+                        <% }); %>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Menu Cepat</h4>
+                    <ul>
+                        <li><span>Beranda</span></li>
+                        <li><span>Profil Desa</span></li>
+                        <li><span>Layanan</span></li>
+                        <li><span>Berita</span></li>
+                        <li><span>Kontak</span></li>
+                    </ul>
+                </div>
+
+
+
+                <div class="footer-contact">
+                    <h4>Kontak</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> <%= typeof siteSettings !== 'undefined' && siteSettings && siteSettings.address ? siteSettings.address : 'Jl. Raya Wonowoso No. 1' %></li>
+                        <li><i class="fas fa-phone"></i> <%= typeof siteSettings !== 'undefined' && siteSettings && siteSettings.phone ? siteSettings.phone : '(0291) 123-4567' %></li>
+                        <li><i class="fas fa-envelope"></i> <%= typeof siteSettings !== 'undefined' && siteSettings && siteSettings.email ? siteSettings.email : 'desawonowoso@gmail.com' %></li>
+                        <li><i class="fas fa-clock"></i> <%= typeof siteSettings !== 'undefined' && siteSettings && siteSettings.operationalHours ? siteSettings.operationalHours : 'Senin - Jumat: 08.00 - 15.00' %></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <p><%= typeof siteSettings !== 'undefined' && siteSettings && siteSettings.copyrightText ? siteSettings.copyrightText : '&copy; 2026 Desa Wonowoso. Hak Cipta Dilindungi.' %></p>
+            <p>Dikembangkan dengan <i class="fas fa-heart"></i> untuk Masyarakat</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
+<script src="/js/script.js"></script>
+</body>
+
+</html>

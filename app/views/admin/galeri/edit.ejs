@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card card-warning">
+            <div class="card-header">
+                <h3 class="card-title">Edit Info Foto</h3>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <img src="<%= galeri.image %>" class="img-fluid rounded shadow-sm" style="max-height: 200px;">
+                </div>
+                <form action="/admin/galeri/<%= galeri._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Judul Foto</label>
+                        <input type="text" name="title" class="form-control" value="<%= galeri.title %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select name="category" class="form-control">
+                            <option value="Kegiatan" <%=galeri.category==='Kegiatan' ? 'selected' : '' %>>Kegiatan
+                            </option>
+                            <option value="Fasilitas" <%=galeri.category==='Fasilitas' ? 'selected' : '' %>>Fasilitas
+                            </option>
+                            <option value="Pemandangan" <%=galeri.category==='Pemandangan' ? 'selected' : '' %>
+                                >Pemandangan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <a href="/admin/galeri" class="btn btn-secondary">Batal</a>
+                        <button type="submit" class="btn btn-primary float-right">Update Info</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

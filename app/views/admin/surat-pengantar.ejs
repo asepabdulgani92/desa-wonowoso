@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- <title>Surat Keterangan Pengantar - Desa Wonowoso</title> -->
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 20mm 20mm 20mm;
+        }
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            line-height: 1.4;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .kop-header {
+            position: relative;
+            text-align: center;
+            border-bottom: 3px double #000;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        .logo-demak {
+            position: absolute;
+            left: 5px;
+            top: 0;
+            width: 75px;
+            height: auto;
+        }
+        .kop-text {
+            margin-left: 80px;
+            margin-right: 20px;
+        }
+        .kop-text .line1 {
+            font-size: 13pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .kop-text .line2 {
+            font-size: 16pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .kop-text .line3 {
+            font-size: 11pt;
+            font-weight: normal;
+        }
+        .title-section {
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .title-section .judul {
+            font-size: 13pt;
+            font-weight: bold;
+            text-decoration: underline;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .title-section .nomor {
+            font-size: 12pt;
+            margin-top: 4px;
+        }
+        .opening-text {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        .data-table td {
+            vertical-align: top;
+            padding: 4px 0;
+        }
+        .data-table td.col-label {
+            width: 28%;
+            white-space: nowrap;
+        }
+        .data-table td.col-colon {
+            width: 2%;
+            text-align: center;
+        }
+        .data-table td.col-value {
+            width: 70%;
+            font-weight: bold;
+        }
+        .closing-text {
+            margin-top: 15px;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        .signature-section {
+            width: 100%;
+            margin-top: 30px;
+        }
+        .signature-meta {
+            width: 100%;
+            text-align: right;
+            margin-bottom: 12px;
+            font-size: 12pt;
+        }
+        .signature-meta .meta-line {
+            display: block;
+            margin-bottom: 6px;
+        }
+        .signature-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-end; /* align signature boxes to baseline */
+        }
+        .signature-col {
+            width: 32%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .sig-title {
+            font-size: 16px;
+            font-weight: 400;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+        .sig-line {
+            width: 80%;
+            border-bottom: 1px dotted #777;
+            margin: 10px auto 6px;
+            height: 0;
+        }
+        .sig-caption {
+            color: #777;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+        .signature-space {
+            height: 70px;
+        }
+        .action-buttons {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .action-button {
+            display: inline-block;
+            padding: 10px 18px;
+            text-decoration: none;
+            color: #fff;
+            background: #007bff;
+            border-radius: 5px;
+            font-size: 12pt;
+        }
+        .action-button.mail {
+            background: #28a745;
+        }
+        .action-button.print {
+            background: #0056b3;
+        }
+        .action-button:hover {
+            opacity: 0.9;
+        }
+        .no-print {
+            display: block;
+        }
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="kop-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/06/Lambang_Kabupaten_Demak.png" class="logo-demak" alt="Logo Kabupaten Demak">
+        <div class="kop-text">
+            <div class="line1">PEMERINTAH KABUPATEN DEMAK<br/>KECAMATAN KARANG TENGAH</div>
+            <div class="line2">DESA WONOWOSO</div>
+            <div class="line3">JL. DESA WONOWOSO NO. 1 RT. 002</div>
+        </div>
+    </div>
+
+    <div class="title-section">
+        <div class="judul">SURAT KETERANGAN<br/>PENGANTAR</div>
+        <div class="nomor">Nomor : <%= nomorSurat || '-' %>/V/2026</div>
+    </div>
+
+    <div class="opening-text">
+        Yang bertanda tangan di bawah ini menerangkan bahwa:
+    </div>
+
+    <table class="data-table">
+        <tr>
+            <td class="col-label">Nama Lengkap</td>
+            <td class="col-colon">:</td>
+            <td class="col-value"><%= nama %> &nbsp;&nbsp;&nbsp;&nbsp; Jenis Kel : <%= jenisKelamin %></td>
+        </tr>
+        <tr>
+            <td class="col-label">Tempat / Tgl Lahir</td>
+            <td class="col-colon">:</td>
+            <td class="col-value"><%= tempatLahir %>, <%= tanggalLahir ? new Date(tanggalLahir).toLocaleDateString('id-ID') : '-' %></td>
+        </tr>
+        <tr>
+            <td class="col-label">Kewarganegaraan</td>
+            <td class="col-colon">:</td>
+            <td class="col-value"><%= kewarganegaraan %> &nbsp;&nbsp;&nbsp;&nbsp; Agama : <%= agama %></td>
+        </tr>
+        <tr>
+            <td class="col-label">Pekerjaan</td>
+            <td class="col-colon">:</td>
+            <td class="col-value"><%= pekerjaan %></td>
+        </tr>
+        <tr>
+            <td class="col-label">Tempat Tinggal</td>
+            <td class="col-colon">:</td>
+            <td class="col-value">
+                <%= address %><br>
+                RT/RW: <%= rt %> / <%= rw %><br>
+                Ds. Wonowoso, Kec Karang Tengah, Kab. Demak
+            </td>
+        </tr>
+        <tr>
+            <td class="col-label">Surat Bukti Diri</td>
+            <td class="col-colon">:</td>
+            <td class="col-value">
+                KTP : <%= ktp ? 'Terlampir' : 'Tidak Terlampir' %><br>
+                KK : <%= kk ? 'Terlampir' : 'Tidak Terlampir' %>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-label">Keperluan</td>
+            <td class="col-colon">:</td>
+            <td class="col-value"><%= keperluan %></td>
+        </tr>
+        <tr>
+            <td class="col-label">Berlaku mulai tanggal</td>
+            <td class="col-colon">:</td>
+            <% var displayTanggal = tanggalBerlaku ? new Date(tanggalBerlaku) : (typeof tanggalSurat !== 'undefined' && tanggalSurat ? new Date(tanggalSurat) : null); %>
+            <td class="col-value"><%= displayTanggal ? displayTanggal.toLocaleDateString('id-ID') : '-' %> &nbsp;&nbsp; S/D Seperlunya</td>
+        </tr>
+        <tr>
+            <td class="col-label">Keterangan lain-lain</td>
+            <td class="col-colon">:</td>
+            <td class="col-value" style="font-weight: normal;">
+                Nama tersebut di atas benar – benar warga Desa Wonowoso dan beradat istiadat baik.
+            </td>
+        </tr>
+    </table>
+
+    <div class="closing-text">
+        Demikian untuk menjadikan maklum bagi yang berkepentingan.
+    </div>
+
+    <div class="signature-section">
+
+
+        <div class="signature-row">
+
+        <div class="signature-col"></div>
+
+        <div class="signature-col"></div>
+        
+
+        <div class="signature-col">
+            <div class="meta-line">Dibuat di : <strong>Wonowoso</strong></div>
+            <div class="meta-line">Pada tanggal : <%= tanggalSurat ? new Date(tanggalSurat).toLocaleDateString('id-ID') : new Date().toLocaleDateString('id-ID') %></div>
+        </div>
+        
+
+        </div>
+
+        <div class="signature-row">
+            <div class="signature-col">
+                <div class="sig-title">Ttd Pemegang</div>
+                <div class="signature-space"></div>
+                <div class="sig-line"></div>
+                <!-- <div class="sig-caption">(..................................)</div> -->
+            </div>
+            <div class="signature-col">
+                <div class="sig-title">Mengetahui<br/>Camat Karangtengah</div>
+                <div class="signature-space"></div>
+                <div class="sig-line"></div>
+                <!-- <div class="sig-caption">(..................................)</div> -->
+            </div>
+            <div class="signature-col">
+                <div class="sig-title">Kepala Desa Wonowoso</div>
+                <div class="signature-space"></div>
+                <div class="sig-line"></div>
+                <!-- <div class="sig-caption">(..................................)</div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons no-print">
+        <button onclick="setujuiPengajuan()" class="action-button mail">
+    Kirim ke Email <%= email %>
+</button>
+
+<script>
+    function setujuiPengajuan() {
+        var pengajuanId = "<%= pengajuanId || '' %>";
+        var nomorSurat = "<%= nomorSurat || '' %>";
+        var email = "<%= encodeURIComponent(email) %>";
+        var nama = "<%= encodeURIComponent(nama) %>";
+
+        if (pengajuanId) {
+            fetch('/admin/pengajuan/' + pengajuanId + '/approve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    nomorSurat: nomorSurat
+                })
+            }).catch(function (err) {
+                console.error('Gagal mengubah status pengajuan:', err);
+            });
+        }
+
+        var mailUrl = "https://mail.google.com/mail/?view=cm&fs=1" +
+            "&to=" + email +
+            "&su=" + encodeURIComponent("Surat Keterangan Pengantar - Desa Wonowoso") +
+            "&body=" + encodeURIComponent("Yth. Bapak/Ibu " + decodeURIComponent(nama) + ",\n\nTerlampir Surat Keterangan Pengantar Anda.\nSilakan periksa file pada lampiran ini.\n\nTerima kasih,\nDesa Wonowoso");
+
+        window.open(mailUrl, '_blank');
+        window.print();
+    }
+
+
+</script>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Galeri Foto</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#uploadModal">
+                <i class="fas fa-upload"></i> Upload Foto
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <% galeris.forEach(item=> { %>
+                <div class="col-sm-3 mb-4">
+                    <div class="position-relative">
+                        <a href="<%= item.image %>" data-toggle="lightbox" data-title="<%= item.title %>"
+                            data-gallery="gallery">
+                            <img src="<%= item.image %>" class="img-fluid rounded border shadow-sm"
+                                style="height: 200px; width: 100%; object-fit: cover;">
+                        </a>
+                        <div class="ribbon-wrapper ribbon-lg">
+                            <div class="ribbon bg-success">
+                                <%= item.category %>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <h6 class="text-truncate px-2">
+                                <%= item.title %>
+                            </h6>
+                            <div class="btn-group btn-group-sm">
+                                <a href="/admin/galeri/<%= item._id %>/edit" class="btn btn-info"><i
+                                        class="fas fa-edit"></i></a>
+                                <form action="/admin/galeri/<%= item._id %>?_method=DELETE" method="POST"
+                                    onsubmit="return confirm('Hapus foto ini?');">
+                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Upload -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Foto Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/admin/galeri" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Judul Foto</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Kategori</label>
+                        <select name="category" class="form-control">
+                            <option value="Kegiatan">Kegiatan</option>
+                            <option value="Fasilitas">Fasilitas</option>
+                            <option value="Pemandangan">Pemandangan</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>File Foto</label>
+                        <div class="custom-file">
+                            <input type="file" name="image" class="custom-file-input" id="galeriFile" required>
+                            <label class="custom-file-label" for="galeriFile">Pilih file</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
