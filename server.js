@@ -10,9 +10,6 @@ const connectDB = require('./config/database');
 // Load env vars
 dotenv.config();
 
-// Connect to database
-connectDB();
-
 const app = express();
 
 // View engine setup
@@ -46,6 +43,7 @@ app.use(flash());
 // Global variables
 app.use(async (req, res, next) => {
     try {
+        await connectDB();
         const { SiteSettings } = require('./app/models');
         res.locals.success = req.flash('success');
         res.locals.error = req.flash('error');
@@ -71,7 +69,17 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    
-    console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+    connectDB()
+        .then(() => {
+            app.listen(PORT, () => {
+                console.log(`Server running on port ${PORT}`);
+            });
+        })
+        .catch(error => {
+            console.error(`Unable to start server: ${error.message}`);
+            process.exitCode = 1;
+        });
+}
+
+module.exports = app;
