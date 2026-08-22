@@ -27,6 +27,9 @@ app.use(methodOverride('_method'));
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')));
+if (process.env.VERCEL) {
+    app.use('/uploads', express.static(path.join('/tmp', 'desa-wonowoso-uploads')));
+}
 // Ensure uploads folder exists or serve it? It's in public/uploads.
 
 // Session setup

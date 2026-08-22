@@ -2,11 +2,14 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure upload directories exist
-const uploadDir = 'public/uploads';
-const userDocsDir = 'public/uploads/user_docs';
-const adminDocsDir = 'public/uploads/admin_docs';
-const templateDocsDir = 'public/uploads/template_docs';
+// Vercel functions can write only to /tmp, while local uploads use the project folder.
+const uploadsRoot = process.env.VERCEL
+    ? path.join('/tmp', 'desa-wonowoso-uploads')
+    : path.join(__dirname, '..', 'public', 'uploads');
+const uploadDir = uploadsRoot;
+const userDocsDir = path.join(uploadsRoot, 'user_docs');
+const adminDocsDir = path.join(uploadsRoot, 'admin_docs');
+const templateDocsDir = path.join(uploadsRoot, 'template_docs');
 
 [uploadDir, userDocsDir, adminDocsDir, templateDocsDir].forEach(dir => {
     if (!fs.existsSync(dir)) {
