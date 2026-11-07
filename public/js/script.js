@@ -7,7 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   initProfilTabs();
   initHeaderScroll();
   initBeritaFilter();
+  initGaleriFilter();
+  initGalleryLightbox();
+  initOrgChartClick();
   initHeroStatCounters();
+  initImageUploadPreview();
 }); // (Removed as we now use separate pages)
 
 function initHeroStatCounters() {
@@ -47,6 +51,27 @@ function initHeroStatCounters() {
   });
 }
 
+function initImageUploadPreview() {
+  document.querySelectorAll('input[type="file"][data-preview-target]').forEach((input) => {
+    const previewId = input.dataset.previewTarget;
+    const preview = previewId ? document.getElementById(previewId) : null;
+
+    if (!preview) return;
+
+    input.addEventListener('change', () => {
+      const file = input.files && input.files[0];
+      if (!file || !file.type.startsWith('image/')) {
+        preview.src = '';
+        preview.style.display = 'none';
+        return;
+      }
+
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    });
+  });
+}
+
 // Berita Filter
 function initBeritaFilter() {
   const filterBtns = document.querySelectorAll('.filter-btn');
@@ -82,6 +107,106 @@ function initBeritaFilter() {
       });
     });
   }
+}
+
+function initOrgChartClick() {
+  const boxes = document.querySelectorAll('.org-box');
+
+  if (!boxes.length) return;
+
+  boxes.forEach((box) => {
+    box.addEventListener('click', () => {
+      boxes.forEach((item) => item.classList.remove('active'));
+      box.classList.add('active');
+    });
+  });
+}
+
+// Galeri Filter
+function initGaleriFilter() {
+  const filterBtns = document.querySelectorAll('.galeri-filter .filter-btn');
+  const galleryItems = document.querySelectorAll('.galeri-item');
+  const galleryGrid = document.getElementById('galeriGrid');
+  const galleryEmptyState = document.getElementById('galleryEmptyState');
+  const galleryEmptyCategory = document.getElementById('galleryEmptyCategory');
+
+  if (filterBtns.length > 0 && galleryItems.length > 0) {
+    const updateGalleryState = (filterValue) => {
+      let visibleCount = 0;
+
+      galleryItems.forEach(item => {
+        const category = (item.getAttribute('data-category') || '').toLowerCase();
+        const show = filterValue === 'all' || category === filterValue;
+        item.style.display = show ? 'block' : 'none';
+        if (show) visibleCount++;
+      });
+
+      if (galleryEmptyState) {
+        const hasVisibleItems = visibleCount > 0;
+        galleryEmptyState.style.display = hasVisibleItems ? 'none' : 'block';
+      }
+
+      if (galleryEmptyCategory && !galleryGrid) {
+        galleryEmptyCategory.textContent = filterValue === 'all' ? 'semua' : filterValue;
+      }
+
+      if (galleryEmptyCategory && galleryGrid) {
+        const label = filterValue === 'all' ? 'semua' : filterValue;
+        galleryEmptyCategory.textContent = label;
+      }
+    };
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+        updateGalleryState(filterValue);
+      });
+    });
+
+    updateGalleryState('all');
+  }
+}
+
+function initGalleryLightbox() {
+  const modal = document.getElementById('galleryModal');
+  if (!modal) return;
+
+  const modalImage = document.getElementById('galleryModalImage');
+  const modalCaption = document.getElementById('galleryModalCaption');
+  const closeButtons = document.querySelectorAll('[data-close-gallery]');
+
+  const closeGalleryModal = () => {
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  document.querySelectorAll('.gallery-open-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      const imageUrl = button.dataset.image || '';
+      const title = button.dataset.title || 'Foto Galeri';
+
+      modalImage.src = imageUrl;
+      modalImage.alt = title;
+      modalCaption.textContent = title;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener('click', closeGalleryModal);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('show')) {
+      closeGalleryModal();
+    }
+  });
 }
 
 // Header Scroll Effect

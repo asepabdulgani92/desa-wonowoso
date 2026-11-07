@@ -20,14 +20,17 @@
                         <button class="filter-btn active" data-filter="all">Semua</button>
                         <button class="filter-btn" data-filter="kegiatan">Kegiatan</button>
                         <button class="filter-btn" data-filter="pembangunan">Pembangunan</button>
-                        <button class="filter-btn" data-filter="wisata">Wisata</button>
                     </div>
 
-                    <div class="galeri-grid">
+                    <div class="galeri-grid" id="galeriGrid">
                         <% if (typeof galeris !=='undefined' && galeris.length> 0) { %>
                             <% galeris.forEach(item=> { %>
-                                <div class="galeri-item"
-                                    data-category="<%= item.category ? item.category.toLowerCase() : 'kegiatan' %>">
+                                <button type="button"
+                                    class="galeri-item gallery-open-btn"
+                                    data-category="<%= item.category ? item.category.toLowerCase() : 'kegiatan' %>"
+                                    data-image="<%= item.image || 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=400' %>"
+                                    data-title="<%= item.title %>"
+                                    aria-label="Buka foto <%= item.title %>">
                                     <img src="<%= item.image || 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=400' %>"
                                         alt="<%= item.title %>">
                                     <div class="galeri-overlay">
@@ -36,24 +39,40 @@
                                             <%= item.title %>
                                         </span>
                                     </div>
-                                </div>
+                                </button>
                                 <% }); %>
                                     <% } else { %>
                                         <!-- Static Fallback -->
-                                        <div class="galeri-item" data-category="kegiatan">
+                                        <button type="button"
+                                            class="galeri-item gallery-open-btn" data-category="kegiatan"
+                                            data-image="https://images.unsplash.com/photo-1500076656116-558758c991c1?w=400"
+                                            data-title="Gotong Royong"
+                                            aria-label="Buka foto Gotong Royong">
                                             <img src="https://images.unsplash.com/photo-1500076656116-558758c991c1?w=400"
                                                 alt="Galeri">
                                             <div class="galeri-overlay">
                                                 <i class="fas fa-search-plus"></i>
                                                 <span>Gotong Royong</span>
                                             </div>
-                                        </div>
+                                        </button>
                                         <!-- ... other static items -->
                                         <% } %>
+                    </div>
+                    <div class="empty-state-box gallery-empty-state" id="galleryEmptyState" style="display:none;">
+                        <h3>Maaf galeri <span id="galleryEmptyCategory">kategori</span> belum tersedia.</h3>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <div class="gallery-modal" id="galleryModal" aria-hidden="true">
+        <div class="gallery-modal-backdrop" data-close-gallery></div>
+        <div class="gallery-modal-content" role="dialog" aria-modal="true" aria-label="Preview foto galeri">
+            <button type="button" class="gallery-modal-close" data-close-gallery aria-label="Tutup foto">×</button>
+            <img id="galleryModalImage" src="" alt="Preview foto galeri">
+            <div class="gallery-modal-caption" id="galleryModalCaption"></div>
+        </div>
+    </div>
 
     <%- include('partials/footer') %>

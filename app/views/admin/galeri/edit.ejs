@@ -6,7 +6,11 @@
             </div>
             <div class="card-body">
                 <div class="text-center mb-4">
-                    <img src="<%= galeri.image %>" class="img-fluid rounded shadow-sm" style="max-height: 200px;">
+                    <% if (galeri.image) { %>
+                        <img src="<%= galeri.image %>" class="img-fluid rounded shadow-sm" style="max-height: 200px;">
+                        <% } else { %>
+                            <div class="alert alert-secondary">Belum ada foto untuk galeri ini.</div>
+                            <% } %>
                 </div>
                 <form action="/admin/galeri/<%= galeri._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
@@ -16,14 +20,27 @@
                     <div class="form-group">
                         <label>Kategori</label>
                         <select name="category" class="form-control">
-                            <option value="Kegiatan" <%=galeri.category==='Kegiatan' ? 'selected' : '' %>>Kegiatan
-                            </option>
-                            <option value="Fasilitas" <%=galeri.category==='Fasilitas' ? 'selected' : '' %>>Fasilitas
-                            </option>
-                            <option value="Pemandangan" <%=galeri.category==='Pemandangan' ? 'selected' : '' %>
-                                >Pemandangan</option>
+                            <option value="Kegiatan" <%=galeri.category==='Kegiatan' ? 'selected' : '' %>>Kegiatan</option>
+                            <option value="Pembangunan" <%=galeri.category==='Pembangunan' ? 'selected' : '' %>>Pembangunan</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Ganti Foto (Opsional)</label>
+                        <div class="custom-file">
+                            <input type="file" name="image" class="custom-file-input" id="galeriEditFile" data-preview-target="galeriEditPreview">
+                            <label class="custom-file-label" for="galeriEditFile">Pilih file baru...</label>
+                        </div>
+                        <img id="galeriEditPreview" src="" alt="Preview gambar galeri baru" style="display:none; max-width:100%; max-height:220px; margin-top:10px; border-radius:8px; border:1px solid #ddd;">
+                    </div>
+
+                    <% if (galeri.image) { %>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="deleteGaleriImage" name="deleteImage" value="true">
+                                <label class="custom-control-label" for="deleteGaleriImage">Hapus foto ini</label>
+                            </div>
+                        </div>
+                        <% } %>
 
                     <div class="form-group">
                         <a href="/admin/galeri" class="btn btn-secondary">Batal</a>

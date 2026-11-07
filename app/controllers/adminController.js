@@ -1,4 +1,5 @@
 const { Layanan, Berita, Profil, Galeri, Kontak, Pengajuan, DesaStatistik, PerangkatDesa, SiteSettings } = require('../models/index');
+const DEFAULT_PERANGKAT_PHOTO = 'https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png';
 
 exports.getDashboard = async (req, res) => {
     let profilData = {};
@@ -238,7 +239,7 @@ exports.createPerangkatDesa = async (req, res) => {
         const payload = {
             name: String(name).trim(),
             position: String(position).trim(),
-            photo: req.file ? `/uploads/${req.file.filename}` : 'https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png',
+            photo: req.file ? `/uploads/${req.file.filename}` : '',
             order: nextOrder
         };
 
@@ -255,7 +256,7 @@ exports.createPerangkatDesa = async (req, res) => {
 
 exports.updatePerangkatDesa = async (req, res) => {
     try {
-        const { name, position, order } = req.body;
+        const { name, position, order, removePhoto } = req.body;
         const existing = await PerangkatDesa.find().sort({ order: 1, createdAt: 1 });
         const current = existing.find(item => item._id.toString() === req.params.id);
         const targetOrder = Number.isInteger(Number(order)) && Number(order) >= 0 ? Number(order) : (current ? current.order : 0);
@@ -265,7 +266,11 @@ exports.updatePerangkatDesa = async (req, res) => {
             position: String(position || '').trim()
         };
 
-        if (req.file) {
+        const shouldRemovePhoto = removePhoto === '1' || removePhoto === 'true' || removePhoto === 'on';
+
+        if (shouldRemovePhoto) {
+            updateData.photo = '';
+        } else if (req.file) {
             updateData.photo = `/uploads/${req.file.filename}`;
         }
 
@@ -453,6 +458,22 @@ exports.rejectPengajuan = async (req, res) => {
 };
 
 // --- BERITA ---
+const normalizeBeritaCategory = (category) => {
+    const value = String(category || '').trim().toLowerCase();
+    const categoryMap = {
+        kegiatan: 'Kegiatan',
+        pembangunan: 'Pembangunan',
+        wisata: 'Kegiatan',
+        sosial: 'Sosial',
+        'berita desa': 'Kegiatan',
+        pengumuman: 'Kegiatan',
+        fasilitas: 'Kegiatan',
+        pemandangan: 'Kegiatan'
+    };
+
+    return categoryMap[value] || 'Kegiatan';
+};
+
 exports.getBerita = async (req, res) => {
     const beritas = await Berita.find().sort({ createdAt: -1 });
     res.render('admin/berita/index', { layout: 'admin/layout', title: 'Kelola Berita', beritas });
@@ -460,7 +481,8 @@ exports.getBerita = async (req, res) => {
 exports.createBerita = async (req, res) => {
     const { title, content, category } = req.body;
     const image = req.file ? '/uploads/' + req.file.filename : '';
-    await Berita.create({ title, content, category, image, author: 'Admin' });
+    const normalizedCategory = normalizeBeritaCategory(category);
+    await Berita.create({ title, content, category: normalizedCategory, image, author: 'Admin' });
     res.redirect('/admin/berita');
 };
 exports.getEditBerita = async (req, res) => {
@@ -469,7 +491,7 @@ exports.getEditBerita = async (req, res) => {
 };
 exports.updateBerita = async (req, res) => {
     const { title, content, category } = req.body;
-    const updateData = { title, content, category };
+    const updateData = { title, content, category: normalizeBeritaCategory(category) };
     if (req.file) {
         updateData.image = '/uploads/' + req.file.filename;
     }
@@ -482,27 +504,52 @@ exports.deleteBerita = async (req, res) => {
 };
 
 // --- GALERI ---
+const normalizeGaleriCategory = (category) => {
+    const value = String(category || '').trim().toLowerCase();
+    const categoryMap = {
+        kegiatan: 'Kegiatan',
+        pembangunan: 'Pembangunan',
+        wisata: 'Kegiatan',
+        fasilitas: 'Kegiatan',
+        pemandangan: 'Kegiatan'
+    };
+
+    return categoryMap[value] || 'Kegiatan';
+};
+
 exports.getGaleri = async (req, res) => {
     const galeris = await Galeri.find().sort({ createdAt: -1 });
-    res.render('admin/galeri/index', { layout: 'admin/layout', title: 'Kelola Galeri', galeris });
+    const normalizedGaleris = galeris.map(item => ({
+        ...item.toObject(),
+        category: normalizeGaleriCategory(item.category)
+    }));
+
+    res.render('admin/galeri/index', { layout: 'admin/layout', title: 'Kelola Galeri', galeris: normalizedGaleris });
 };
 exports.createGaleri = async (req, res) => {
     const { title, category } = req.body;
     const image = req.file ? '/uploads/' + req.file.filename : '';
-    await Galeri.create({ title, category, image });
+    await Galeri.create({ title, category: normalizeGaleriCategory(category), image });
     res.redirect('/admin/galeri');
 };
 exports.getEditGaleri = async (req, res) => {
     const galeri = await Galeri.findById(req.params.id);
+    if (galeri) {
+        galeri.category = normalizeGaleriCategory(galeri.category);
+    }
     res.render('admin/galeri/edit', { layout: 'admin/layout', title: 'Edit Galeri', galeri });
 };
 // Add update for Galeri too
 exports.updateGaleri = async (req, res) => {
-    const { title, category } = req.body;
-    const updateData = { title, category };
-    if (req.file) {
+    const { title, category, deleteImage } = req.body;
+    const updateData = { title, category: normalizeGaleriCategory(category) };
+
+    if (deleteImage === 'true') {
+        updateData.image = '';
+    } else if (req.file) {
         updateData.image = '/uploads/' + req.file.filename;
     }
+
     await Galeri.findByIdAndUpdate(req.params.id, updateData);
     res.redirect('/admin/galeri');
 };

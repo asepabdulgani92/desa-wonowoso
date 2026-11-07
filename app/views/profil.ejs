@@ -285,17 +285,34 @@
                 const tabBtns = document.querySelectorAll('.tab-btn');
                 const tabContents = document.querySelectorAll('.tab-content');
 
+                const activateTab = (tabId) => {
+                    tabBtns.forEach(btn => {
+                        const isActive = btn.getAttribute('data-tab') === tabId;
+                        btn.classList.toggle('active', isActive);
+                    });
+
+                    tabContents.forEach(content => {
+                        const isActive = content.getAttribute('id') === tabId;
+                        content.classList.toggle('active', isActive);
+                    });
+
+                    if (tabId) {
+                        history.replaceState(null, '', `#${tabId}`);
+                    }
+                };
+
                 tabBtns.forEach(btn => {
                     btn.addEventListener('click', () => {
-                        // Remove active class from all buttons and contents
-                        tabBtns.forEach(b => b.classList.remove('active'));
-                        tabContents.forEach(c => c.classList.remove('active'));
-
-                        // Add active class to clicked button and corresponding content
-                        btn.classList.add('active');
                         const tabId = btn.getAttribute('data-tab');
-                        document.getElementById(tabId).classList.add('active');
+                        activateTab(tabId);
                     });
                 });
+
+                const initialTab = location.hash ? location.hash.replace('#', '') : 'sejarah';
+                const validTab = Array.from(tabBtns).some(btn => btn.getAttribute('data-tab') === initialTab)
+                    ? initialTab
+                    : 'sejarah';
+
+                activateTab(validTab);
             });
         </script>

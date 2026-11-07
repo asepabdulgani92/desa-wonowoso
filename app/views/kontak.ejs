@@ -1,5 +1,13 @@
 <%- include('partials/header', { title: 'Hubungi Kami | Desa Wonowoso' , page: 'kontak' }) %>
 
+    <%
+        const defaultMapUrl = 'https://www.google.com/maps?q=Desa%20Wonowoso&output=embed';
+        const mapEmbedUrl = siteSettings && siteSettings.mapEmbedUrl ? String(siteSettings.mapEmbedUrl).trim() : defaultMapUrl;
+        const mapLink = mapEmbedUrl.includes('output=embed')
+            ? mapEmbedUrl.replace(/&output=embed|\?output=embed/gi, '')
+            : mapEmbedUrl;
+    %>
+
     <main>
         <!-- ==================== KONTAK ==================== -->
         <section id="kontak" class="page active">
@@ -119,12 +127,21 @@
 
                     <div class="map-section">
                         <h2>Lokasi Desa</h2>
-                        <div class="map-container">
-                            <iframe
-                                src="<%= siteSettings && siteSettings.mapEmbedUrl ? siteSettings.mapEmbedUrl : 'https://www.google.com/maps?q=Desa%20Wonowoso&output=embed' %>"
-                                allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
+                        <a href="<%= mapLink %>" target="_blank" rel="noopener noreferrer" class="map-cta" aria-label="Buka lokasi desa di Google Maps">
+                            <div class="map-visual" aria-hidden="true">
+                                <div class="map-grid"></div>
+                                <div class="map-pin-wrap">
+                                    <div class="map-pin"><i class="fas fa-map-marker-alt"></i></div>
+                                </div>
+                                <div class="map-route route-one"></div>
+                                <div class="map-route route-two"></div>
+                            </div>
+                            <div class="map-copy">
+                                <span class="map-badge">Lokasi Desa</span>
+                                <strong>Open Map</strong>
+                                <small>Klik untuk menuju lokasi di Google Maps</small>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>

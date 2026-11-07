@@ -53,6 +53,18 @@
                                     </span>
                                     Persyaratan Dokumen
                                 </h4>
+
+                                <div class="d-flex flex-column gap-2 mb-3">
+                                    <div class="d-flex align-items-center text-dark fw-semibold">
+                                        <span class="me-2">•</span>
+                                        <span>Email Aktif</span>
+                                    </div>
+                                    <div class="d-flex align-items-center text-dark fw-semibold">
+                                        <span class="me-2">•</span>
+                                        <span>Nomor WhatsApp Aktif</span>
+                                    </div>
+                                </div>
+
                                 <% if (layanan.requirements && layanan.requirements.length> 0) { %>
                                     <div class="requirements-grid">
                                         <% layanan.requirements.forEach(req=> { %>
@@ -181,14 +193,16 @@
                                 <div class="mb-4 ">
                                     <p class="text-lg fw-bold text-uppercase text-muted mb-3">Kontak</p>
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">Alamat Email</label>
+                                        <label for="email" class="form-label">Email Aktif</label>
                                         <input type="email" name="email" class="form-control bg-light border-0"
-                                            id="email" placeholder="Masukkan email" required>
+                                            id="email" placeholder="Masukkan email aktif" required>
+                                        <div class="form-text">Pastikan email yang Anda masukkan aktif dan bisa diakses.</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="phone" class="form-label">Nomor WhatsApp Aktif</label>
                                         <input type="tel" name="phone" class="form-control bg-light border-0" id="phone"
-                                            placeholder="Masukkan nomor WhatsApp" required>
+                                            placeholder="Masukkan nomor WhatsApp aktif" required>
+                                        <div class="form-text">Pastikan nomor WhatsApp aktif agar kami bisa menghubungi Anda.</div>
                                     </div>
                                 </div>
 
@@ -204,18 +218,20 @@
 
                                 <div class="mb-4">
                                     <label class="form-label text-xs fw-bold text-uppercase text-muted">Berkas Persyaratan</label>
-                                    <div class="mb-3">
-                                        <label for="ktpFile" class="form-label">File KTP</label>
-                                        <input type="file" name="ktpFile" id="ktpFile" class="form-control bg-light border-0"
-                                            accept=".pdf,.jpg,.jpeg,.png">
-                                        <div class="form-text">Wajib Lampirkan KTP</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="kkFile" class="form-label">File KK</label>
-                                        <input type="file" name="kkFile" id="kkFile" class="form-control bg-light border-0"
-                                            accept=".pdf,.jpg,.jpeg,.png">
-                                        <div class="form-text">Wajib Lampirkan KK</div>
-                                    </div>
+                                    <%
+                                        const requirementList = Array.isArray(layanan.requirements) && layanan.requirements.length > 0
+                                            ? layanan.requirements
+                                            : ['File KTP', 'File KK'];
+                                    %>
+                                    <% requirementList.forEach((item, index) => { %>
+                                        <div class="mb-3">
+                                            <label for="requirementFile-<%= index %>" class="form-label"><%= item %></label>
+                                            <input type="file" name="requirementFiles" id="requirementFile-<%= index %>"
+                                                class="form-control bg-light border-0" accept=".pdf,.jpg,.jpeg,.png" required>
+                                            <input type="hidden" name="requirementLabels" value="<%= item %>">
+                                            <div class="form-text">Wajib lampirkan <%= item.toLowerCase() %>.</div>
+                                        </div>
+                                    <% }); %>
                                 </div>
 
                                 <button type="submit"

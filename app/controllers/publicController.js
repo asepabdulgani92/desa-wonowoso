@@ -71,6 +71,33 @@ exports.getLayananDetail = async (req, res) => {
     }
 };
 
+const normalizeBeritaCategory = (category) => {
+    const value = String(category || '').trim().toLowerCase();
+    const categoryMap = {
+        kegiatan: 'Kegiatan',
+        pembangunan: 'Pembangunan',
+        wisata: 'Kegiatan',
+        sosial: 'Sosial',
+        'berita desa': 'Kegiatan',
+        pengumuman: 'Kegiatan',
+        fasilitas: 'Kegiatan',
+        pemandangan: 'Kegiatan'
+    };
+
+    return categoryMap[value] || 'Kegiatan';
+};
+
+const getBeritaCategoryAliases = (category) => {
+    const normalized = normalizeBeritaCategory(category);
+    const aliases = {
+        Kegiatan: ['Kegiatan', 'Berita Desa', 'Pengumuman', 'Wisata', 'Fasilitas', 'Pemandangan'],
+        Pembangunan: ['Pembangunan'],
+        Sosial: ['Sosial']
+    };
+
+    return aliases[normalized] || [normalized];
+};
+
 exports.getBerita = async (req, res) => {
     try {
         const beritas = await Berita.find().sort({ createdAt: -1 });
@@ -89,16 +116,17 @@ exports.getBerita = async (req, res) => {
 exports.getBeritaCategory = async (req, res) => {
     try {
         const category = req.params.category;
-        const beritas = await Berita.find({ category: { $regex: new RegExp(category, 'i') } }).sort({ createdAt: -1 });
+        const normalizedCategory = normalizeBeritaCategory(category);
+        const aliases = getBeritaCategoryAliases(normalizedCategory);
+        const beritas = await Berita.find({ category: { $in: aliases } }).sort({ createdAt: -1 });
 
-        // Format category for display (e.g. 'kegiatan' -> 'Kegiatan')
-        let displayCategory = category.charAt(0).toUpperCase() + category.slice(1);
+        let displayCategory = normalizedCategory;
 
         res.render('berita', {
             title: `Berita ${displayCategory} | Desa Wonowoso`,
             page: 'berita',
             beritas,
-            currentCategory: category.toLowerCase()
+            currentCategory: normalizedCategory.toLowerCase()
         });
     } catch (error) {
         console.error(error);
@@ -149,10 +177,20 @@ exports.getProfil = async (req, res) => {
 exports.getGaleri = async (req, res) => {
     try {
         const galeris = await Galeri.find().sort({ createdAt: -1 });
+        const normalizedGaleris = galeris.map(item => ({
+            ...item.toObject(),
+            category: (() => {
+                const value = String(item.category || '').trim().toLowerCase();
+                if (['kegiatan', 'wisata', 'fasilitas', 'pemandangan'].includes(value)) return 'Kegiatan';
+                if (['pembangunan'].includes(value)) return 'Pembangunan';
+                return 'Kegiatan';
+            })()
+        }));
+
         res.render('galeri', {
             title: 'Galeri | Desa Wonowoso',
             page: 'galeri',
-            galeris
+            galeris: normalizedGaleris
         });
     } catch (error) {
         console.error(error);
@@ -192,7 +230,11 @@ exports.postKontak = async (req, res) => {
 };
 
 exports.postPengajuan = async (req, res) => {
-    upload.fields([{ name: 'ktpFile', maxCount: 1 }, { name: 'kkFile', maxCount: 1 }])(req, res, async (err) => {
+    upload.fields([
+        { name: 'ktpFile', maxCount: 1 },
+        { name: 'kkFile', maxCount: 1 },
+        { name: 'requirementFiles', maxCount: 50 }
+    ])(req, res, async (err) => {
         if (err) {
             console.error('File upload error:', err);
             req.flash('error', 'Gagal mengunggah file: ' + err.message);
@@ -217,8 +259,22 @@ exports.postPengajuan = async (req, res) => {
             } = req.body;
 
             const keperluan = req.body.keperluan || req.body.description || '';
-            const ktpFile = req.files?.ktpFile?.[0]?.filename || null;
-            const kkFile = req.files?.kkFile?.[0]?.filename || null;
+            const requirementLabels = Array.isArray(req.body.requirementLabels)
+                ? req.body.requirementLabels
+                : req.body.requirementLabels
+                    ? [req.body.requirementLabels]
+                    : [];
+            const uploadedRequirementFiles = req.files?.requirementFiles || [];
+            const matchedKtpFile = uploadedRequirementFiles.find((file, index) => {
+                const target = requirementLabels[index] || '';
+                return /ktp/i.test(target) || /kartu tanda penduduk/i.test(target);
+            });
+            const matchedKkFile = uploadedRequirementFiles.find((file, index) => {
+                const target = requirementLabels[index] || '';
+                return /kk/i.test(target) || /kartu keluarga/i.test(target);
+            });
+            const ktpFile = req.files?.ktpFile?.[0]?.filename || matchedKtpFile?.filename || null;
+            const kkFile = req.files?.kkFile?.[0]?.filename || matchedKkFile?.filename || null;
 
             console.log('Pengajuan request body:', req.body);
             console.log('Pengajuan uploaded files:', req.files);

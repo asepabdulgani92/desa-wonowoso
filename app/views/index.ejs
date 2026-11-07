@@ -72,7 +72,7 @@
                                 Selengkapnya <i class="fas fa-arrow-right"></i>
                             </div>
                         </a>
-                        <a href="/layanan" class="service-card">
+                        <a href="/profil#demografi" class="service-card">
                             <div class="service-icon secondary">
                                 <i class="fas fa-users"></i>
                             </div>
@@ -243,35 +243,106 @@
                     <div class="section-header">
                         <span class="section-badge">Pemerintah Desa</span>
                         <h2 class="section-title">Perangkat Desa Wonowoso</h2>
-                        <p class="section-subtitle">Melayani dengan sepenuh hati untuk kemajuan desa</p>
+                        <p class="section-subtitle">Struktur organisasi pemerintahan desa yang memimpin dan melayani masyarakat</p>
                     </div>
-                    <div class="team-grid">
-                        <% if (perangkatDesa && perangkatDesa.length) { %>
-                            <% perangkatDesa.forEach((person) => { %>
-                                <div class="team-card">
-                                    <div class="team-image">
-                                        <img src="<%= person.photo || 'https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png' %>"
-                                            alt="<%= person.name %>">
+
+                    <%
+                        const fallbackPhoto = 'https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png';
+                        const cleanText = (value = '') => (value || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+                        const people = Array.isArray(perangkatDesa)
+                            ? [...perangkatDesa].sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0))
+                            : [];
+                        const leader = people.find(person => cleanText(person.position).includes('kepala desa')) || people[0] || null;
+                        const secretary = people.find(person => cleanText(person.position).includes('sekretaris')) || null;
+                        const otherPeople = people.filter(person => {
+                            if (!person || !person._id) return false;
+                            const isLeader = leader && person._id.toString() === leader._id.toString();
+                            const isSecretary = secretary && person._id.toString() === secretary._id.toString();
+                            return !isLeader && !isSecretary;
+                        });
+                        const kasiList = otherPeople.filter(person => cleanText(person.position).includes('kasi'));
+                        const kaurList = otherPeople.filter(person => /kaur|tata usaha|keuangan|perencanaan/.test(cleanText(person.position)));
+                        const kadusList = otherPeople.filter(person => cleanText(person.position).includes('kadus'));
+                    %>
+
+                    <% if (people.length) { %>
+                        <div class="team-structure-panel">
+                            <div class="team-structure-title">Struktur Organisasi Pemerintahan Desa Wonowoso</div>
+
+                            <div class="org-chart">
+                                <% if (leader) { %>
+                                    <div class="org-row org-row-top">
+                                        <div class="org-box org-box-leader">
+                                            <div class="org-box-label">Kepala Desa</div>
+                                            <div class="org-person">
+                                                <img src="<%= leader.photo || fallbackPhoto %>" alt="<%= leader.name %>">
+                                                <strong><%= leader.name %></strong>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="team-info">
-                                        <h4><%= person.name %></h4>
-                                        <span><%= person.position %></span>
+                                <% } %>
+
+                                <% if (secretary) { %>
+                                    <div class="org-row org-row-middle">
+                                        <div class="org-box org-box-secretary">
+                                            <div class="org-box-label">Sekretaris Desa</div>
+                                            <div class="org-person">
+                                                <img src="<%= secretary.photo || fallbackPhoto %>" alt="<%= secretary.name %>">
+                                                <strong><%= secretary.name %></strong>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            <% }) %>
-                        <% } else { %>
-                            <div class="team-card">
-                                <div class="team-image">
-                                    <img src="https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png"
-                                        alt="Kepala Desa">
-                                </div>
-                                <div class="team-info">
-                                    <h4>Pak Jarwo</h4>
-                                    <span>Kepala Desa</span>
-                                </div>
+                                <% } %>
+
+                                <% if (kasiList.length) { %>
+                                    <div class="org-row org-row-mid">
+                                        <% kasiList.forEach((person) => { %>
+                                            <div class="org-box">
+                                                <div class="org-box-label"><%= person.position %></div>
+                                                <div class="org-person">
+                                                    <img src="<%= person.photo || fallbackPhoto %>" alt="<%= person.name %>">
+                                                    <strong><%= person.name %></strong>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+
+                                <% if (kaurList.length) { %>
+                                    <div class="org-row org-row-bottom">
+                                        <% kaurList.forEach((person) => { %>
+                                            <div class="org-box">
+                                                <div class="org-box-label"><%= person.position %></div>
+                                                <div class="org-person">
+                                                    <img src="<%= person.photo || fallbackPhoto %>" alt="<%= person.name %>">
+                                                    <strong><%= person.name %></strong>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+
+                                <% if (kadusList.length) { %>
+                                    <div class="org-row org-row-bottom-small">
+                                        <% kadusList.forEach((person) => { %>
+                                            <div class="org-box org-box-small">
+                                                <div class="org-box-label"><%= person.position %></div>
+                                                <div class="org-person">
+                                                    <img src="<%= person.photo || fallbackPhoto %>" alt="<%= person.name %>">
+                                                    <strong><%= person.name %></strong>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
                             </div>
-                        <% } %>
-                    </div>
+                        </div>
+                    <% } else { %>
+                        <div class="empty-state-box">
+                            <i class="fas fa-user-tie"></i>
+                            <p>Belum ada data perangkat desa yang ditambahkan.</p>
+                        </div>
+                    <% } %>
                 </div>
             </div>
 

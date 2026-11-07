@@ -69,6 +69,93 @@
     <!-- /.card-body -->
 </div>
 
+<script>
+    function addRequirementRow(mode) {
+        const listId = mode === 'edit' ? 'requirementsListEdit' : 'requirementsListAdd';
+        const textId = mode === 'edit' ? 'inputRequirements' : 'requirementsTextareaAdd';
+        const list = document.getElementById(listId);
+        if (!list) return;
+
+        const row = document.createElement('div');
+        row.className = 'd-flex align-items-center mb-2 requirement-row';
+        row.innerHTML = `
+            <input type="text" class="form-control requirement-input" placeholder="Masukkan persyaratan" value="">
+            <button type="button" class="btn btn-outline-danger btn-sm ml-2 remove-requirement" title="Hapus">
+                <i class="fas fa-trash"></i>
+            </button>
+        `;
+
+        row.querySelector('.remove-requirement').addEventListener('click', function () {
+            row.remove();
+            syncRequirements(mode);
+        });
+
+        row.querySelector('.requirement-input').addEventListener('input', function () {
+            syncRequirements(mode);
+        });
+
+        list.appendChild(row);
+        syncRequirements(mode);
+    }
+
+    function syncRequirements(mode) {
+        const listId = mode === 'edit' ? 'requirementsListEdit' : 'requirementsListAdd';
+        const textId = mode === 'edit' ? 'inputRequirements' : 'requirementsTextareaAdd';
+        const list = document.getElementById(listId);
+        const textarea = document.getElementById(textId);
+        if (!list || !textarea) return;
+
+        const values = Array.from(list.querySelectorAll('.requirement-input'))
+            .map(input => input.value.trim())
+            .filter(value => value !== '');
+
+        textarea.value = values.join('\n');
+    }
+
+    function initializeRequirementList(mode, initialValues) {
+        const listId = mode === 'edit' ? 'requirementsListEdit' : 'requirementsListAdd';
+        const list = document.getElementById(listId);
+        if (!list) return;
+
+        list.innerHTML = '';
+        const values = Array.isArray(initialValues) && initialValues.length > 0 ? initialValues : ['File KTP', 'File KK'];
+
+        values.forEach(function (value) {
+            const row = document.createElement('div');
+            row.className = 'd-flex align-items-center mb-2 requirement-row';
+            row.innerHTML = `
+                <input type="text" class="form-control requirement-input" placeholder="Masukkan persyaratan" value="${value.replace(/"/g, '&quot;')}">
+                <button type="button" class="btn btn-outline-danger btn-sm ml-2 remove-requirement" title="Hapus">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+
+            row.querySelector('.remove-requirement').addEventListener('click', function () {
+                row.remove();
+                syncRequirements(mode);
+            });
+
+            row.querySelector('.requirement-input').addEventListener('input', function () {
+                syncRequirements(mode);
+            });
+
+            list.appendChild(row);
+        });
+
+        syncRequirements(mode);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeRequirementList('add', ['File KTP', 'File KK']);
+        const editTextarea = document.getElementById('inputRequirements');
+        if (editTextarea && editTextarea.value.trim()) {
+            initializeRequirementList('edit', editTextarea.value.split('\n').map(v => v.trim()).filter(Boolean));
+        } else {
+            initializeRequirementList('edit', ['File KTP', 'File KK']);
+        }
+    });
+</script>
+
 <!-- Modal Add Layanan -->
 <div class="modal fade" id="addLayananModal" tabindex="-1" role="dialog" aria-labelledby="addLayananLabel"
     aria-hidden="true">
@@ -93,8 +180,14 @@
                     </div>
                     <div class="form-group">
                         <label>Persyaratan</label>
-                        <textarea name="requirements" class="form-control" rows="4"
-                            placeholder="Tulis satu persyaratan per baris"></textarea>
+                        <div class="mb-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRequirementRow('addLayananModal')">
+                                <i class="fas fa-plus"></i> Tambah Persyaratan
+                            </button>
+                        </div>
+                        <div id="requirementsListAdd" class="mb-2"></div>
+                        <textarea id="requirementsTextareaAdd" name="requirements" class="form-control d-none" rows="4"></textarea>
+                        <small class="text-muted">Satu persyaratan per baris. Anda dapat menambah atau menghapus item sesuai kebutuhan.</small>
                     </div>
                     <div class="form-group">
                         <label>Icon</label>

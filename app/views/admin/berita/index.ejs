@@ -13,10 +13,11 @@
             <thead>
                 <tr>
                     <th style="width: 1%">#</th>
+                    <th style="width: 12%">Gambar</th>
                     <th style="width: 20%">Judul</th>
                     <th style="width: 30%">Cuplikan</th>
                     <th>Kategori</th>
-                    <th style="width: 20%">Aksi</th>
+                    <th style="width: 24%">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +25,16 @@
                     <tr>
                         <td>
                             <%= index + 1 %>
+                        </td>
+                        <td>
+                            <% if (item.image) { %>
+                                <a href="<%= item.image %>" data-toggle="lightbox" data-title="<%= item.title %>"
+                                    data-gallery="berita-preview">
+                                    <img src="<%= item.image %>" class="img-fluid rounded" style="width: 80px; height: 60px; object-fit: cover;">
+                                </a>
+                                <% } else { %>
+                                    <span class="text-muted">Tidak ada</span>
+                                    <% } %>
                         </td>
                         <td>
                             <a>
@@ -46,15 +57,21 @@
                             </span>
                         </td>
                         <td class="project-actions">
-                            <a class="btn btn-info btn-sm" href="/admin/berita/<%= item._id %>/edit">
-                                <i class="fas fa-pencil-alt"></i> Edit
-                            </a>
-                            <form action="/admin/berita/<%= item._id %>?_method=DELETE" method="POST"
-                                style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus?');">
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </form>
+                            <% if (item.image) { %>
+                                <a class="btn btn-success btn-sm" href="<%= item.image %>" data-toggle="lightbox"
+                                    data-title="<%= item.title %>" data-gallery="berita-preview">
+                                    <i class="fas fa-eye"></i> Preview
+                                </a>
+                                <% } %>
+                                    <a class="btn btn-info btn-sm" href="/admin/berita/<%= item._id %>/edit">
+                                        <i class="fas fa-pencil-alt"></i> Edit
+                                    </a>
+                                    <form action="/admin/berita/<%= item._id %>?_method=DELETE" method="POST"
+                                        style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus?');">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
                         </td>
                     </tr>
                     <% }) %>
@@ -84,17 +101,18 @@
                     <div class="form-group">
                         <label>Kategori</label>
                         <select name="category" class="form-control">
-                            <option value="Berita Desa">Berita Desa</option>
-                            <option value="Pengumuman">Pengumuman</option>
                             <option value="Kegiatan">Kegiatan</option>
+                            <option value="Sosial">Sosial</option>
+                            <option value="Pembangunan">Pembangunan</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Gambar Utama</label>
                         <div class="custom-file">
-                            <input type="file" name="image" class="custom-file-input" id="customFile">
+                            <input type="file" name="image" class="custom-file-input" id="customFile" data-preview-target="beritaUploadPreview">
                             <label class="custom-file-label" for="customFile">Pilih file</label>
                         </div>
+                        <img id="beritaUploadPreview" src="" alt="Preview gambar berita" style="display:none; max-width:100%; max-height:220px; margin-top:10px; border-radius:8px; border:1px solid #ddd;">
                     </div>
                     <div class="form-group">
                         <label>Isi Berita</label>

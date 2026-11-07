@@ -19,7 +19,7 @@ const templateDocsDir = path.join(uploadsRoot, 'template_docs');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        if (file.fieldname === 'dokumen' || file.fieldname === 'userFiles' || file.fieldname === 'ktpFile' || file.fieldname === 'kkFile') {
+        if (file.fieldname === 'dokumen' || file.fieldname === 'userFiles' || file.fieldname === 'ktpFile' || file.fieldname === 'kkFile' || file.fieldname === 'requirementFiles') {
             cb(null, userDocsDir);
         } else if (file.fieldname === 'adminFile') {
             cb(null, adminDocsDir);

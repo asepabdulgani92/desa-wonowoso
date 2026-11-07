@@ -21,12 +21,10 @@
                             class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'all') ? 'active' : '' %>">Semua</a>
                         <a href="/berita/kategori/kegiatan"
                             class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'kegiatan') ? 'active' : '' %>">Kegiatan</a>
-                        <a href="/berita/kategori/pembangunan"
-                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'pembangunan') ? 'active' : '' %>">Pembangunan</a>
                         <a href="/berita/kategori/sosial"
                             class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'sosial') ? 'active' : '' %>">Sosial</a>
-                        <a href="/berita/kategori/pengumuman"
-                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'pengumuman') ? 'active' : '' %>">Pengumuman</a>
+                        <a href="/berita/kategori/pembangunan"
+                            class="filter-btn <%= (typeof currentCategory !== 'undefined' && currentCategory === 'pembangunan') ? 'active' : '' %>">Pembangunan</a>
                     </div>
 
                     <div class="berita-grid" id="beritaGrid">
@@ -64,28 +62,8 @@
                                 </a>
                                 <% }); %>
                                     <% } else { %>
-                                        <!-- Static Fallback (Hidden if dynamic data exists or maybe verify later) -->
-                                        <!-- Since we are converting, we can keep static html comments or just render empty if no data -->
-                                        <!-- For now, I will not include the static fallback to encourage using the DB, but usually for "conversion" it's safer to have content. -->
-                                        <!-- I'll put one static item as example if empty -->
-                                        <div class="news-card featured">
-                                            <div class="news-image">
-                                                <img src="https://images.unsplash.com/photo-1500076656116-558758c991c1?w=800"
-                                                    alt="Berita">
-                                                <div class="news-category">Contoh</div>
-                                            </div>
-                                            <div class="news-content">
-                                                <div class="news-meta">
-                                                    <span><i class="fas fa-calendar"></i> - </span>
-                                                    <span><i class="fas fa-user"></i> Admin</span>
-                                                </div>
-                                                <h3>Belum ada berita</h3>
-                                                <p>Saat ini belum ada berita yang diterbitkan. Silakan cek kembali
-                                                    nanti.</p>
-                                                <span class="btn btn-text text-muted">
-                                                    (Contoh Tampilan)
-                                                </span>
-                                            </div>
+                                        <div class="empty-state-box berita-empty-state">
+                                            <h3>Maaf berita <span><%= typeof currentCategory !== 'undefined' && currentCategory && currentCategory !== 'all' ? currentCategory.replace(/\b\w/g, c => c.toUpperCase()) : 'terkini' %></span> belum tersedia.</h3>
                                         </div>
                                         <% } %>
                     </div>
