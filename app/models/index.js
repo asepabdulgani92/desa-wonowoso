@@ -148,6 +148,15 @@ const siteSettingsSchema = new mongoose.Schema({
 
 const SiteSettings = mongoose.model('SiteSettings', siteSettingsSchema);
 
+const uploadedFileSchema = new mongoose.Schema({
+    filename: { type: String, required: true, unique: true, index: true },
+    mimetype: { type: String, default: 'application/octet-stream' },
+    data: { type: Buffer, required: true },
+    size: Number
+}, { timestamps: true });
+
+const UploadedFile = mongoose.model('UploadedFile', uploadedFileSchema);
+
 module.exports = {
     Admin,
     Layanan,
@@ -158,5 +167,6 @@ module.exports = {
     Galeri,
     Kontak,
     PerangkatDesa,
-    SiteSettings
+    SiteSettings,
+    UploadedFile
 };

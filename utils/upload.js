@@ -36,18 +36,9 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    // Allowed extensions
     const allowedTypes = /pdf|jpg|jpeg|png|doc|docx/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    // Check mime type (basic check, can be expanded)
-    // const mimetype = allowedTypes.test(file.mimetype); 
-    // Mimetype check can be tricky for doc/docx, let's rely on extension + generic check or list all mimes
-    // For simplicity and avoiding issues with various Office mimes, we check extension mainly here, 
-    // but usually mimetype check is safer.
-    // Common mimes: application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document
 
-    // Let's broaden the mimetype check or just check extension for simplicity in this context if strict security isn't paramount.
-    // However, to be safe, let's include mimes.
     const mimetypes = [
         'image/jpeg',
         'image/png',
@@ -63,10 +54,73 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-const upload = multer({
+const rawUpload = multer({
     storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
     fileFilter: fileFilter
 });
+
+async function saveFileToDb(file) {
+    if (!file || !file.path) return;
+    try {
+        const { UploadedFile } = require('../app/models');
+        if (fs.existsSync(file.path)) {
+            const data = fs.readFileSync(file.path);
+            await UploadedFile.findOneAndUpdate(
+                { filename: file.filename },
+                {
+                    filename: file.filename,
+                    mimetype: file.mimetype || 'application/octet-stream',
+                    data: data,
+                    size: file.size || data.length
+                },
+                { upsert: true, new: true }
+            );
+            console.log(`[MongoDB Storage] Persisted ${file.filename} (${data.length} bytes) to MongoDB Atlas`);
+        }
+    } catch (err) {
+        console.error(`[MongoDB Storage Error] Failed to persist ${file.filename}:`, err.message);
+    }
+}
+
+async function persistReqFiles(req) {
+    if (req.file) {
+        await saveFileToDb(req.file);
+    }
+    if (req.files) {
+        if (Array.isArray(req.files)) {
+            for (const f of req.files) await saveFileToDb(f);
+        } else if (typeof req.files === 'object') {
+            for (const key of Object.keys(req.files)) {
+                const arr = req.files[key];
+                if (Array.isArray(arr)) {
+                    for (const f of arr) await saveFileToDb(f);
+                }
+            }
+        }
+    }
+}
+
+function wrapMulter(middleware) {
+    return (req, res, next) => {
+        middleware(req, res, async (err) => {
+            if (err) return next(err);
+            try {
+                await persistReqFiles(req);
+            } catch (pErr) {
+                console.error('[MongoDB Storage Error]:', pErr);
+            }
+            next();
+        });
+    };
+}
+
+const upload = {
+    single: (name) => wrapMulter(rawUpload.single(name)),
+    fields: (fieldsArr) => wrapMulter(rawUpload.fields(fieldsArr)),
+    array: (name, max) => wrapMulter(rawUpload.array(name, max)),
+    any: () => wrapMulter(rawUpload.any()),
+    saveFileToDb
+};
 
 module.exports = upload;

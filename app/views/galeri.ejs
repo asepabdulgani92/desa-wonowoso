@@ -31,8 +31,9 @@
                                     data-image="<%= item.image || 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=400' %>"
                                     data-title="<%= item.title %>"
                                     aria-label="Buka foto <%= item.title %>">
-                                    <img src="<%= item.image || 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=400' %>"
-                                        alt="<%= item.title %>">
+                                    <img src="<%= item.image || 'https://images.unsplash.com/photo-1500076656116-558758c991c1?w=600&auto=format&fit=crop&q=80' %>"
+                                        alt="<%= item.title %>"
+                                        onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500076656116-558758c991c1?w=600&auto=format&fit=crop&q=80';">
                                     <div class="galeri-overlay">
                                         <i class="fas fa-search-plus"></i>
                                         <span>

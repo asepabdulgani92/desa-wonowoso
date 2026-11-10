@@ -41,7 +41,8 @@
                                 <% if (berita.image) { %>
                                     <div class="berita-image mb-4">
                                         <img src="<%= berita.image %>" alt="<%= berita.title %>"
-                                            class="img-fluid rounded w-100">
+                                            class="img-fluid rounded w-100"
+                                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1500076656116-558758c991c1?w=1000&auto=format&fit=crop&q=80';">
                                     </div>
                                     <% } %>
 

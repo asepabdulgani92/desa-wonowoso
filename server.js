@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const session = require('express-session');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
@@ -27,10 +28,43 @@ app.use(methodOverride('_method'));
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')));
-if (process.env.VERCEL) {
-    app.use('/uploads', express.static(path.join('/tmp', 'desa-wonowoso-uploads')));
-}
-// Ensure uploads folder exists or serve it? It's in public/uploads.
+
+// Serve uploads from local disk, Vercel /tmp, or MongoDB Atlas fallback
+app.get('/uploads/*', async (req, res, next) => {
+    const rawPath = req.params[0] || '';
+    const filename = path.basename(rawPath);
+
+    // 1. Check local static disk in public/uploads
+    const publicPath = path.join(__dirname, 'public', 'uploads', rawPath);
+    if (fs.existsSync(publicPath) && fs.statSync(publicPath).isFile()) {
+        return res.sendFile(publicPath);
+    }
+
+    // 2. Check temporary disk on Vercel
+    if (process.env.VERCEL) {
+        const tmpPath = path.join('/tmp', 'desa-wonowoso-uploads', rawPath);
+        if (fs.existsSync(tmpPath) && fs.statSync(tmpPath).isFile()) {
+            return res.sendFile(tmpPath);
+        }
+    }
+
+    // 3. Fallback: stream file from MongoDB Atlas!
+    try {
+        await connectDB();
+        const { UploadedFile } = require('./app/models');
+        const fileDoc = await UploadedFile.findOne({ filename: filename });
+        if (fileDoc && fileDoc.data) {
+            res.set('Content-Type', fileDoc.mimetype || 'image/jpeg');
+            // Cache on Vercel CDN Edge for 1 year
+            res.set('Cache-Control', 'public, max-age=31536000, immutable');
+            return res.send(fileDoc.data);
+        }
+    } catch (dbErr) {
+        console.error('Error fetching file from MongoDB Atlas:', dbErr);
+    }
+
+    next();
+});
 
 // Session setup
 app.use(session({
