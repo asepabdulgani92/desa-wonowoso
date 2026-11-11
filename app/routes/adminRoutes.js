@@ -27,14 +27,18 @@ router.delete('/desa-data/:id', adminController.deleteDesaData);
 router.get('/berita', adminController.getBerita);
 router.get('/berita/:id/edit', adminController.getEditBerita);
 router.post('/berita', upload.single('image'), adminController.createBerita);
-router.put('/berita/:id', upload.single('image'), adminController.updateBerita); // method-override used here
+router.post('/berita/:id', upload.single('image'), adminController.updateBerita); // Fallback
+router.put('/berita/:id', upload.single('image'), adminController.updateBerita);
+router.post('/berita/:id/delete', adminController.deleteBerita); // Fallback
 router.delete('/berita/:id', adminController.deleteBerita);
 
 // Galeri
 router.get('/galeri', adminController.getGaleri);
 router.get('/galeri/:id/edit', adminController.getEditGaleri);
 router.post('/galeri', upload.single('image'), adminController.createGaleri);
+router.post('/galeri/:id', upload.single('image'), adminController.updateGaleri); // Fallback
 router.put('/galeri/:id', upload.single('image'), adminController.updateGaleri);
+router.post('/galeri/:id/delete', adminController.deleteGaleri); // Fallback
 router.delete('/galeri/:id', adminController.deleteGaleri);
 
 // Profil

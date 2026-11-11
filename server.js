@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const session = require('express-session');
+const connectMongo = require('connect-mongo');
+const MongoStore = connectMongo.default || connectMongo.MongoStore || connectMongo;
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
@@ -12,6 +14,9 @@ const connectDB = require('./config/database');
 dotenv.config();
 
 const app = express();
+
+// Trust proxy for Vercel / reverse proxy (enables proper secure cookie handling)
+app.set('trust proxy', 1);
 
 // View engine setup
 app.set('views', path.join(__dirname, 'app/views'));
@@ -66,12 +71,24 @@ app.get('/uploads/*', async (req, res, next) => {
     next();
 });
 
-// Session setup
+// Session setup with MongoDB store
+const mongoSessionUri = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/desa_wonowoso';
+
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'secret',
+    secret: process.env.SESSION_SECRET || 'desa-wonowoso-session-secret',
     resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: mongoSessionUri,
+        ttl: 14 * 24 * 60 * 60, // 14 days
+        autoRemove: 'native',
+        touchAfter: 24 * 3600
+    }),
+    cookie: {
+        maxAge: 14 * 24 * 60 * 60 * 1000, // 14 days
+        httpOnly: true,
+        sameSite: 'lax'
+    }
 }));
 
 // Flash messages

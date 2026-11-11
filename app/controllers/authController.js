@@ -26,8 +26,11 @@ exports.postLogin = async (req, res) => {
             return req.session.save(() => res.redirect('/admin/login'));
         }
 
-        req.session.adminId = admin._id;
-        req.session.save(() => res.redirect('/admin/dashboard'));
+        req.session.adminId = admin._id.toString();
+        req.session.save((err) => {
+            if (err) console.error('Session save error:', err);
+            res.redirect('/admin/dashboard');
+        });
     } catch (error) {
         console.error(error);
         req.flash('error', 'Terjadi kesalahan server');

@@ -1,4 +1,5 @@
-const { Layanan, Berita, Profil, Galeri, Kontak, Pengajuan, DesaStatistik, PerangkatDesa, SiteSettings } = require('../models/index');
+const path = require('path');
+const { Layanan, Berita, Profil, Galeri, Kontak, Pengajuan, DesaStatistik, PerangkatDesa, SiteSettings, UploadedFile } = require('../models/index');
 const DEFAULT_PERANGKAT_PHOTO = 'https://cdn.digitaldesa.com/statics/profil-v2/assets/fallback-B6dzNJxy.png';
 
 exports.getDashboard = async (req, res) => {
@@ -325,7 +326,6 @@ exports.getPengajuan = async (req, res) => {
 };
 
 const sendEmail = require('../../utils/email');
-const path = require('path');
 
 exports.getSuratPengantar = async (req, res) => {
     try {
@@ -518,43 +518,99 @@ const normalizeGaleriCategory = (category) => {
 };
 
 exports.getGaleri = async (req, res) => {
-    const galeris = await Galeri.find().sort({ createdAt: -1 });
-    const normalizedGaleris = galeris.map(item => ({
-        ...item.toObject(),
-        category: normalizeGaleriCategory(item.category)
-    }));
+    try {
+        const galeris = await Galeri.find().sort({ createdAt: -1 });
+        const normalizedGaleris = galeris.map(item => ({
+            ...item.toObject(),
+            category: normalizeGaleriCategory(item.category)
+        }));
 
-    res.render('admin/galeri/index', { layout: 'admin/layout', title: 'Kelola Galeri', galeris: normalizedGaleris });
+        res.render('admin/galeri/index', { layout: 'admin/layout', title: 'Kelola Galeri', galeris: normalizedGaleris });
+    } catch (error) {
+        console.error('getGaleri error:', error);
+        res.render('admin/galeri/index', { layout: 'admin/layout', title: 'Kelola Galeri', galeris: [] });
+    }
 };
+
 exports.createGaleri = async (req, res) => {
-    const { title, category } = req.body;
-    const image = req.file ? '/uploads/' + req.file.filename : '';
-    await Galeri.create({ title, category: normalizeGaleriCategory(category), image });
+    try {
+        const { title, category } = req.body;
+        const image = req.file ? '/uploads/' + req.file.filename : '';
+        await Galeri.create({ title, category: normalizeGaleriCategory(category), image });
+        req.flash('success', 'Foto galeri berhasil ditambahkan');
+    } catch (error) {
+        console.error('createGaleri error:', error);
+        req.flash('error', 'Gagal menambahkan foto galeri: ' + error.message);
+    }
     res.redirect('/admin/galeri');
 };
+
 exports.getEditGaleri = async (req, res) => {
-    const galeri = await Galeri.findById(req.params.id);
-    if (galeri) {
+    try {
+        const galeri = await Galeri.findById(req.params.id);
+        if (!galeri) {
+            req.flash('error', 'Foto galeri tidak ditemukan');
+            return res.redirect('/admin/galeri');
+        }
         galeri.category = normalizeGaleriCategory(galeri.category);
+        res.render('admin/galeri/edit', { layout: 'admin/layout', title: 'Edit Galeri', galeri });
+    } catch (error) {
+        console.error('getEditGaleri error:', error);
+        req.flash('error', 'Gagal memuat galeri');
+        res.redirect('/admin/galeri');
     }
-    res.render('admin/galeri/edit', { layout: 'admin/layout', title: 'Edit Galeri', galeri });
 };
+
 // Add update for Galeri too
 exports.updateGaleri = async (req, res) => {
-    const { title, category, deleteImage } = req.body;
-    const updateData = { title, category: normalizeGaleriCategory(category) };
+    try {
+        const { title, category, deleteImage } = req.body;
+        const updateData = { title, category: normalizeGaleriCategory(category) };
 
-    if (deleteImage === 'true') {
-        updateData.image = '';
-    } else if (req.file) {
-        updateData.image = '/uploads/' + req.file.filename;
+        const currentItem = await Galeri.findById(req.params.id);
+
+        if (deleteImage === 'true') {
+            if (currentItem && currentItem.image) {
+                const filename = path.basename(currentItem.image);
+                try {
+                    await UploadedFile.deleteOne({ filename });
+                } catch (e) {}
+            }
+            updateData.image = '';
+        } else if (req.file) {
+            if (currentItem && currentItem.image) {
+                const filename = path.basename(currentItem.image);
+                try {
+                    await UploadedFile.deleteOne({ filename });
+                } catch (e) {}
+            }
+            updateData.image = '/uploads/' + req.file.filename;
+        }
+
+        await Galeri.findByIdAndUpdate(req.params.id, updateData);
+        req.flash('success', 'Foto galeri berhasil diperbarui');
+    } catch (error) {
+        console.error('updateGaleri error:', error);
+        req.flash('error', 'Gagal memperbarui galeri: ' + error.message);
     }
-
-    await Galeri.findByIdAndUpdate(req.params.id, updateData);
     res.redirect('/admin/galeri');
 };
+
 exports.deleteGaleri = async (req, res) => {
-    await Galeri.findByIdAndDelete(req.params.id);
+    try {
+        const currentItem = await Galeri.findById(req.params.id);
+        if (currentItem && currentItem.image) {
+            const filename = path.basename(currentItem.image);
+            try {
+                await UploadedFile.deleteOne({ filename });
+            } catch (e) {}
+        }
+        await Galeri.findByIdAndDelete(req.params.id);
+        req.flash('success', 'Foto galeri berhasil dihapus');
+    } catch (error) {
+        console.error('deleteGaleri error:', error);
+        req.flash('error', 'Gagal menghapus galeri: ' + error.message);
+    }
     res.redirect('/admin/galeri');
 };
 

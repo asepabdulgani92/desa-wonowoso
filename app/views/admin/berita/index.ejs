@@ -68,6 +68,7 @@
                                     </a>
                                     <form action="/admin/berita/<%= item._id %>?_method=DELETE" method="POST"
                                         style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus?');">
+                                        <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="btn btn-danger btn-sm">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>

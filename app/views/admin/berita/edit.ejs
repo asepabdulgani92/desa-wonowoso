@@ -9,6 +9,7 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <form action="/admin/berita/<%= berita._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_method" value="PUT">
                     <div class="form-group">
                         <label>Judul Berita</label>
                         <input type="text" name="title" class="form-control" value="<%= berita.title %>" required>

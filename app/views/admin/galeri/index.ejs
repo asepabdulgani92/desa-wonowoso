@@ -33,6 +33,7 @@
                                         class="fas fa-edit"></i></a>
                                 <form action="/admin/galeri/<%= item._id %>?_method=DELETE" method="POST"
                                     onsubmit="return confirm('Hapus foto ini?');">
+                                    <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                 </form>
                             </div>
